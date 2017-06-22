@@ -10,8 +10,18 @@ class MainWindow: public QMainWindow
 public:
     MainWindow();
 public slots:
-
+    void makeNewChar();
 private:
+    // Constructor
+    QWidget *centralZone;
+
+    // Character creation
+    QComboBox *coreRaces;
+    QComboBox *coreClasses;
+    QLineEdit *charName;
+    QComboBox *alignment1;
+    QComboBox *alignment2;
+    QStandardItemModel *modelAbility;
 
 };
 
