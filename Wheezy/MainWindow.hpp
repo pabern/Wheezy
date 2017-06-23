@@ -23,6 +23,9 @@ private:
     QComboBox *alignment2;
     QStandardItemModel *modelAbility;
 
+    // Skill section
+    QCheckBox *boxAcrobatics;
+
 };
 
 #endif // MAINWINDOW_HPP
