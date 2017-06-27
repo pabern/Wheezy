@@ -2004,7 +2004,8 @@ MainWindow.o: ../Wheezy/MainWindow.cpp ../Wheezy/MainWindow.hpp \
 		../../../../Qt/5.8/gcc_64/include/QtWidgets/qwhatsthis.h \
 		../../../../Qt/5.8/gcc_64/include/QtWidgets/qwidgetaction.h \
 		../../../../Qt/5.8/gcc_64/include/QtWidgets/qwizard.h \
-		../../../../Qt/5.8/gcc_64/include/QtWidgets/qtwidgetsversion.h
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qtwidgetsversion.h \
+		../../../../Qt/5.8/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MainWindow.o ../Wheezy/MainWindow.cpp
 
 moc_MainWindow.o: moc_MainWindow.cpp 

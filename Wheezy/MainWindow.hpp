@@ -9,6 +9,8 @@ class MainWindow: public QMainWindow
 
 public:
     MainWindow();
+    QVBoxLayout* createSkill(QString name);
+
 public slots:
     void makeNewChar();
 private:
