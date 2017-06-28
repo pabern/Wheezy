@@ -9,7 +9,7 @@ class MainWindow: public QMainWindow
 
 public:
     MainWindow();
-    QVBoxLayout* createSkill(QString name);
+    void createSkill(QString name,int row);
 
 public slots:
     void makeNewChar();
@@ -27,6 +27,7 @@ private:
 
     // Skill section
     QCheckBox *boxAcrobatics;
+    QGridLayout *gridSkill;
 
 };
 

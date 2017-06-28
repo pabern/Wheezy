@@ -24,6 +24,45 @@ MainWindow::MainWindow()
     setCentralWidget(centralZone);
 }
 
+void MainWindow::createSkill(QString name,int row)
+{
+    QLabel *label = new QLabel;
+    label->setText(name);
+
+    QSpinBox *spinRank = new QSpinBox;
+    spinRank->setValue(0);
+    spinRank->setMinimum(0);
+    spinRank->setMaximum(1); // Level is maximum
+
+    QSpinBox *spinClass = new QSpinBox;
+    spinClass->setValue(0);
+    spinClass->setReadOnly(true);
+    spinClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
+
+    QSpinBox *spinAbility = new QSpinBox;
+    spinAbility->setValue(0);
+    spinAbility->setReadOnly(true);
+    spinAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
+
+    QSpinBox *spinOther = new QSpinBox;
+    spinOther->setValue(0);
+    spinOther->setReadOnly(true);
+    spinOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
+
+    QSpinBox *spinTotal = new QSpinBox;
+    spinTotal->setValue(0);
+    spinTotal->setReadOnly(true);
+    spinTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
+
+    gridSkill->addWidget(label,row,0);
+    gridSkill->addWidget(spinRank,row,1);
+    gridSkill->addWidget(spinClass,row,2);
+    gridSkill->addWidget(spinAbility,row,3);
+    gridSkill->addWidget(spinOther,row,4);
+    gridSkill->addWidget(spinTotal,row,5);
+
+}
+
 void MainWindow::makeNewChar()
 {
     // Name
@@ -259,34 +298,11 @@ void MainWindow::makeNewChar()
     QLabel *labelSkillTotal = new QLabel;
     labelSkillTotal->setText("Total");
 
+
+    gridSkill = new QGridLayout;
+
     // Acrobatics
-    QLabel *labelAcrobatics = new QLabel;
-    labelAcrobatics->setText("Acrobatics");
-
-    QSpinBox *spinAcrobaticsRank = new QSpinBox;
-    spinAcrobaticsRank->setValue(0);
-    spinAcrobaticsRank->setMinimum(0);
-    spinAcrobaticsRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinAcrobaticsClass = new QSpinBox;
-    spinAcrobaticsClass->setValue(0);
-    spinAcrobaticsClass->setReadOnly(true);
-    spinAcrobaticsClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinAcrobaticsAbility = new QSpinBox;
-    spinAcrobaticsAbility->setValue(0);
-    spinAcrobaticsAbility->setReadOnly(true);
-    spinAcrobaticsAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinAcrobaticsOther = new QSpinBox;
-    spinAcrobaticsOther->setValue(0);
-    spinAcrobaticsOther->setReadOnly(true);
-    spinAcrobaticsOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinAcrobaticsTotal = new QSpinBox;
-    spinAcrobaticsTotal->setValue(0);
-    spinAcrobaticsTotal->setReadOnly(true);
-    spinAcrobaticsTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
+    createSkill("Acrobatics",2);
 
     // Appraise
     QLabel *labelAppraise = new QLabel;
@@ -897,26 +913,15 @@ void MainWindow::makeNewChar()
     spinKnNobilityTotal->setReadOnly(true);
     spinKnNobilityTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
 
-    QGridLayout *gridSkill = new QGridLayout;
+
     gridSkill->addWidget(labelSkill,0,0);
     gridSkill->addWidget(labelSkillRank,0,1);
     gridSkill->addWidget(labelSkillClass,0,2);
     gridSkill->addWidget(labelSkillAbility,0,3);
     gridSkill->addWidget(labelSkillOther,0,4);
     gridSkill->addWidget(labelSkillTotal,0,5);
-    gridSkill->addWidget(labelSkill,0,6);
-    gridSkill->addWidget(labelSkillRank,0,7);
-    gridSkill->addWidget(labelSkillClass,0,8);
-    gridSkill->addWidget(labelSkillAbility,0,9);
-    gridSkill->addWidget(labelSkillOther,0,10);
-    gridSkill->addWidget(labelSkillTotal,0,11);
 
-    gridSkill->addWidget(labelAcrobatics,2,0);
-    gridSkill->addWidget(spinAcrobaticsRank,2,1);
-    gridSkill->addWidget(spinAcrobaticsClass,2,2);
-    gridSkill->addWidget(spinAcrobaticsAbility,2,3);
-    gridSkill->addWidget(spinAcrobaticsOther,2,4);
-    gridSkill->addWidget(spinAcrobaticsTotal,2,5);
+
 
     gridSkill->addWidget(labelAppraise,3,0);
     gridSkill->addWidget(spinAppraiseRank,3,1);
@@ -1059,9 +1064,9 @@ void MainWindow::makeNewChar()
     gridSkill->addWidget(spinKnNobilityTotal,22,5);
 
     // Layout for overall page
-    QHBoxLayout *layout = new QHBoxLayout;
-    layout->addLayout(leftLayout);
-    layout->addLayout(gridSkill);
+    QGridLayout *layout = new QGridLayout;
+    layout->addLayout(leftLayout,0,0);
+    layout->addLayout(gridSkill,0,1,2,1);
 
     centralZone->setLayout(layout);
 
