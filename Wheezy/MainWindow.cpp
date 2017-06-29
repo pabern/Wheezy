@@ -6,6 +6,7 @@ MainWindow::MainWindow()
 {
     // Attributes of main window
     setWindowTitle("Welcome to Wheezy !");
+    // setFixedSize(1500,750);
 
     // Menus
     // Character creation menu
@@ -26,6 +27,13 @@ MainWindow::MainWindow()
 
 void MainWindow::createSkill(QString name,int row)
 {
+    int col(0);
+    if (row > 18)
+    {
+        row -= 18;
+        col = 6;
+    }
+
     QLabel *label = new QLabel;
     label->setText(name);
 
@@ -54,12 +62,12 @@ void MainWindow::createSkill(QString name,int row)
     spinTotal->setReadOnly(true);
     spinTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
 
-    gridSkill->addWidget(label,row,0);
-    gridSkill->addWidget(spinRank,row,1);
-    gridSkill->addWidget(spinClass,row,2);
-    gridSkill->addWidget(spinAbility,row,3);
-    gridSkill->addWidget(spinOther,row,4);
-    gridSkill->addWidget(spinTotal,row,5);
+    gridSkill->addWidget(label,row,col);
+    gridSkill->addWidget(spinRank,row,col+1);
+    gridSkill->addWidget(spinClass,row,col+2);
+    gridSkill->addWidget(spinAbility,row,col+3);
+    gridSkill->addWidget(spinOther,row,col+4);
+    gridSkill->addWidget(spinTotal,row,col+5);
 
 }
 
@@ -276,6 +284,49 @@ void MainWindow::makeNewChar()
     gridAbility->addWidget(spinWISBonus,5,4);
     gridAbility->addWidget(spinCHABonus,6,4);
 
+    // Number of feats and name
+    QLabel *labelFeat = new QLabel;
+    labelFeat->setText("Feats");
+
+    QSpinBox *spinFeat = new QSpinBox;
+    spinFeat->setValue(0);
+    spinFeat->setReadOnly(true);
+    spinFeat->setButtonSymbols(QAbstractSpinBox::NoButtons);
+
+    QLineEdit *textFeat = new QLineEdit;
+    QLineEdit *textFeat2 = new QLineEdit;
+    QLineEdit *textFeat3 = new QLineEdit;
+
+    QGridLayout *layoutFeat = new QGridLayout;
+    layoutFeat->addWidget(labelFeat,1,0);
+    layoutFeat->addWidget(spinFeat,1,1);
+    layoutFeat->addWidget(textFeat,0,2);
+    layoutFeat->addWidget(textFeat2,1,2);
+    layoutFeat->addWidget(textFeat3,2,2);
+
+    // Hit Dice
+    QLabel *labelHit = new QLabel;
+    labelHit->setText("Hit Dice");
+
+    QSpinBox *spinHit = new QSpinBox;
+    spinHit->setValue(0);
+
+    QGridLayout *layoutHit = new QGridLayout;
+    layoutHit->addWidget(labelHit,0,0);
+    layoutHit->addWidget(spinHit,0,1);
+
+    // Starting Gold
+    QLabel *labelGold = new QLabel;
+    labelGold->setText("Starting gold");
+
+    QSpinBox *spinGold = new QSpinBox;
+    spinGold->setValue(0);
+
+    QGridLayout *layoutGold = new QGridLayout;
+    layoutGold->addWidget(labelGold,0,0);
+    layoutGold->addWidget(spinGold,0,1);
+
+
     // Layout for left part of page
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->addWidget(charName);
@@ -283,8 +334,12 @@ void MainWindow::makeNewChar()
     leftLayout->addWidget(coreClasses);
     leftLayout->addLayout(alignmentLayout);
     leftLayout->addLayout(gridAbility);
+    leftLayout->addLayout(layoutFeat);
+    leftLayout->addLayout(layoutHit);
+    leftLayout->addLayout(layoutGold);
 
     // ///////////////////// Skill section
+
     QLabel *labelSkill = new QLabel;
     labelSkill->setText("Skill");
     QLabel *labelSkillRank = new QLabel;
@@ -298,621 +353,43 @@ void MainWindow::makeNewChar()
     QLabel *labelSkillTotal = new QLabel;
     labelSkillTotal->setText("Total");
 
-
     gridSkill = new QGridLayout;
 
-    // Acrobatics
-    createSkill("Acrobatics",2);
-
-    // Appraise
-    QLabel *labelAppraise = new QLabel;
-    labelAppraise->setText("Appraise");
-
-    QSpinBox *spinAppraiseRank = new QSpinBox;
-    spinAppraiseRank->setValue(0);
-    spinAppraiseRank->setMinimum(0);
-    spinAppraiseRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinAppraiseClass = new QSpinBox;
-    spinAppraiseClass->setValue(0);
-    spinAppraiseClass->setReadOnly(true);
-    spinAppraiseClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinAppraiseAbility = new QSpinBox;
-    spinAppraiseAbility->setValue(0);
-    spinAppraiseAbility->setReadOnly(true);
-    spinAppraiseAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinAppraiseOther = new QSpinBox;
-    spinAppraiseOther->setValue(0);
-    spinAppraiseOther->setReadOnly(true);
-    spinAppraiseOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinAppraiseTotal = new QSpinBox;
-    spinAppraiseTotal->setValue(0);
-    spinAppraiseTotal->setReadOnly(true);
-    spinAppraiseTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // Bluff
-    QLabel *labelBluff = new QLabel;
-    labelBluff->setText("Bluff");
-
-    QSpinBox *spinBluffRank = new QSpinBox;
-    spinBluffRank->setValue(0);
-    spinBluffRank->setMinimum(0);
-    spinBluffRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinBluffClass = new QSpinBox;
-    spinBluffClass->setValue(0);
-    spinBluffClass->setReadOnly(true);
-    spinBluffClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinBluffAbility = new QSpinBox;
-    spinBluffAbility->setValue(0);
-    spinBluffAbility->setReadOnly(true);
-    spinBluffAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinBluffOther = new QSpinBox;
-    spinBluffOther->setValue(0);
-    spinBluffOther->setReadOnly(true);
-    spinBluffOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinBluffTotal = new QSpinBox;
-    spinBluffTotal->setValue(0);
-    spinBluffTotal->setReadOnly(true);
-    spinBluffTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // Climb
-    QLabel *labelClimb = new QLabel;
-    labelClimb->setText("Climb");
-
-    QSpinBox *spinClimbRank = new QSpinBox;
-    spinClimbRank->setValue(0);
-    spinClimbRank->setMinimum(0);
-    spinClimbRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinClimbClass = new QSpinBox;
-    spinClimbClass->setValue(0);
-    spinClimbClass->setReadOnly(true);
-    spinClimbClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinClimbAbility = new QSpinBox;
-    spinClimbAbility->setValue(0);
-    spinClimbAbility->setReadOnly(true);
-    spinClimbAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinClimbOther = new QSpinBox;
-    spinClimbOther->setValue(0);
-    spinClimbOther->setReadOnly(true);
-    spinClimbOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinClimbTotal = new QSpinBox;
-    spinClimbTotal->setValue(0);
-    spinClimbTotal->setReadOnly(true);
-    spinClimbTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // Craft 1
-    QLabel *labelCraft1 = new QLabel;
-    labelCraft1->setText("Craft1");
-
-    QSpinBox *spinCraft1Rank = new QSpinBox;
-    spinCraft1Rank->setValue(0);
-    spinCraft1Rank->setMinimum(0);
-    spinCraft1Rank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinCraft1Class = new QSpinBox;
-    spinCraft1Class->setValue(0);
-    spinCraft1Class->setReadOnly(true);
-    spinCraft1Class->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinCraft1Ability = new QSpinBox;
-    spinCraft1Ability->setValue(0);
-    spinCraft1Ability->setReadOnly(true);
-    spinCraft1Ability->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinCraft1Other = new QSpinBox;
-    spinCraft1Other->setValue(0);
-    spinCraft1Other->setReadOnly(true);
-    spinCraft1Other->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinCraft1Total = new QSpinBox;
-    spinCraft1Total->setValue(0);
-    spinCraft1Total->setReadOnly(true);
-    spinCraft1Total->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // Craft 2
-    QLabel *labelCraft2 = new QLabel;
-    labelCraft2->setText("Craft2");
-
-    QSpinBox *spinCraft2Rank = new QSpinBox;
-    spinCraft2Rank->setValue(0);
-    spinCraft2Rank->setMinimum(0);
-    spinCraft2Rank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinCraft2Class = new QSpinBox;
-    spinCraft2Class->setValue(0);
-    spinCraft2Class->setReadOnly(true);
-    spinCraft2Class->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinCraft2Ability = new QSpinBox;
-    spinCraft2Ability->setValue(0);
-    spinCraft2Ability->setReadOnly(true);
-    spinCraft2Ability->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinCraft2Other = new QSpinBox;
-    spinCraft2Other->setValue(0);
-    spinCraft2Other->setReadOnly(true);
-    spinCraft2Other->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinCraft2Total = new QSpinBox;
-    spinCraft2Total->setValue(0);
-    spinCraft2Total->setReadOnly(true);
-    spinCraft2Total->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // Diplomacy
-    QLabel *labelDiplomacy = new QLabel;
-    labelDiplomacy->setText("Diplomacy");
-
-    QSpinBox *spinDiplomacyRank = new QSpinBox;
-    spinDiplomacyRank->setValue(0);
-    spinDiplomacyRank->setMinimum(0);
-    spinDiplomacyRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinDiplomacyClass = new QSpinBox;
-    spinDiplomacyClass->setValue(0);
-    spinDiplomacyClass->setReadOnly(true);
-    spinDiplomacyClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinDiplomacyAbility = new QSpinBox;
-    spinDiplomacyAbility->setValue(0);
-    spinDiplomacyAbility->setReadOnly(true);
-    spinDiplomacyAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinDiplomacyOther = new QSpinBox;
-    spinDiplomacyOther->setValue(0);
-    spinDiplomacyOther->setReadOnly(true);
-    spinDiplomacyOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinDiplomacyTotal = new QSpinBox;
-    spinDiplomacyTotal->setValue(0);
-    spinDiplomacyTotal->setReadOnly(true);
-    spinDiplomacyTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // Disable Device
-    QLabel *labelDisableDevice = new QLabel;
-    labelDisableDevice->setText("DisableDevice");
-
-    QSpinBox *spinDisableDeviceRank = new QSpinBox;
-    spinDisableDeviceRank->setValue(0);
-    spinDisableDeviceRank->setMinimum(0);
-    spinDisableDeviceRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinDisableDeviceClass = new QSpinBox;
-    spinDisableDeviceClass->setValue(0);
-    spinDisableDeviceClass->setReadOnly(true);
-    spinDisableDeviceClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinDisableDeviceAbility = new QSpinBox;
-    spinDisableDeviceAbility->setValue(0);
-    spinDisableDeviceAbility->setReadOnly(true);
-    spinDisableDeviceAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinDisableDeviceOther = new QSpinBox;
-    spinDisableDeviceOther->setValue(0);
-    spinDisableDeviceOther->setReadOnly(true);
-    spinDisableDeviceOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinDisableDeviceTotal = new QSpinBox;
-    spinDisableDeviceTotal->setValue(0);
-    spinDisableDeviceTotal->setReadOnly(true);
-    spinDisableDeviceTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // Disguise
-    QLabel *labelDisguise = new QLabel;
-    labelDisguise->setText("Disguise");
-
-    QSpinBox *spinDisguiseRank = new QSpinBox;
-    spinDisguiseRank->setValue(0);
-    spinDisguiseRank->setMinimum(0);
-    spinDisguiseRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinDisguiseClass = new QSpinBox;
-    spinDisguiseClass->setValue(0);
-    spinDisguiseClass->setReadOnly(true);
-    spinDisguiseClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinDisguiseAbility = new QSpinBox;
-    spinDisguiseAbility->setValue(0);
-    spinDisguiseAbility->setReadOnly(true);
-    spinDisguiseAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinDisguiseOther = new QSpinBox;
-    spinDisguiseOther->setValue(0);
-    spinDisguiseOther->setReadOnly(true);
-    spinDisguiseOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinDisguiseTotal = new QSpinBox;
-    spinDisguiseTotal->setValue(0);
-    spinDisguiseTotal->setReadOnly(true);
-    spinDisguiseTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // Escape Artist
-    QLabel *labelEscapeArtist = new QLabel;
-    labelEscapeArtist->setText("EscapeArtist");
-
-    QSpinBox *spinEscapeArtistRank = new QSpinBox;
-    spinEscapeArtistRank->setValue(0);
-    spinEscapeArtistRank->setMinimum(0);
-    spinEscapeArtistRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinEscapeArtistClass = new QSpinBox;
-    spinEscapeArtistClass->setValue(0);
-    spinEscapeArtistClass->setReadOnly(true);
-    spinEscapeArtistClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinEscapeArtistAbility = new QSpinBox;
-    spinEscapeArtistAbility->setValue(0);
-    spinEscapeArtistAbility->setReadOnly(true);
-    spinEscapeArtistAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinEscapeArtistOther = new QSpinBox;
-    spinEscapeArtistOther->setValue(0);
-    spinEscapeArtistOther->setReadOnly(true);
-    spinEscapeArtistOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinEscapeArtistTotal = new QSpinBox;
-    spinEscapeArtistTotal->setValue(0);
-    spinEscapeArtistTotal->setReadOnly(true);
-    spinEscapeArtistTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // Fly
-    QLabel *labelFly = new QLabel;
-    labelFly->setText("Fly");
-
-    QSpinBox *spinFlyRank = new QSpinBox;
-    spinFlyRank->setValue(0);
-    spinFlyRank->setMinimum(0);
-    spinFlyRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinFlyClass = new QSpinBox;
-    spinFlyClass->setValue(0);
-    spinFlyClass->setReadOnly(true);
-    spinFlyClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinFlyAbility = new QSpinBox;
-    spinFlyAbility->setValue(0);
-    spinFlyAbility->setReadOnly(true);
-    spinFlyAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinFlyOther = new QSpinBox;
-    spinFlyOther->setValue(0);
-    spinFlyOther->setReadOnly(true);
-    spinFlyOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinFlyTotal = new QSpinBox;
-    spinFlyTotal->setValue(0);
-    spinFlyTotal->setReadOnly(true);
-    spinFlyTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // Handle Animal
-    QLabel *labelHandleAnimal = new QLabel;
-    labelHandleAnimal->setText("HandleAnimal");
-
-    QSpinBox *spinHandleAnimalRank = new QSpinBox;
-    spinHandleAnimalRank->setValue(0);
-    spinHandleAnimalRank->setMinimum(0);
-    spinHandleAnimalRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinHandleAnimalClass = new QSpinBox;
-    spinHandleAnimalClass->setValue(0);
-    spinHandleAnimalClass->setReadOnly(true);
-    spinHandleAnimalClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinHandleAnimalAbility = new QSpinBox;
-    spinHandleAnimalAbility->setValue(0);
-    spinHandleAnimalAbility->setReadOnly(true);
-    spinHandleAnimalAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinHandleAnimalOther = new QSpinBox;
-    spinHandleAnimalOther->setValue(0);
-    spinHandleAnimalOther->setReadOnly(true);
-    spinHandleAnimalOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinHandleAnimalTotal = new QSpinBox;
-    spinHandleAnimalTotal->setValue(0);
-    spinHandleAnimalTotal->setReadOnly(true);
-    spinHandleAnimalTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // Heal
-    QLabel *labelHeal = new QLabel;
-    labelHeal->setText("Heal");
-
-    QSpinBox *spinHealRank = new QSpinBox;
-    spinHealRank->setValue(0);
-    spinHealRank->setMinimum(0);
-    spinHealRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinHealClass = new QSpinBox;
-    spinHealClass->setValue(0);
-    spinHealClass->setReadOnly(true);
-    spinHealClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinHealAbility = new QSpinBox;
-    spinHealAbility->setValue(0);
-    spinHealAbility->setReadOnly(true);
-    spinHealAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinHealOther = new QSpinBox;
-    spinHealOther->setValue(0);
-    spinHealOther->setReadOnly(true);
-    spinHealOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinHealTotal = new QSpinBox;
-    spinHealTotal->setValue(0);
-    spinHealTotal->setReadOnly(true);
-    spinHealTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // Intimidate
-    QLabel *labelIntimidate = new QLabel;
-    labelIntimidate->setText("Intimidate");
-
-    QSpinBox *spinIntimidateRank = new QSpinBox;
-    spinIntimidateRank->setValue(0);
-    spinIntimidateRank->setMinimum(0);
-    spinIntimidateRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinIntimidateClass = new QSpinBox;
-    spinIntimidateClass->setValue(0);
-    spinIntimidateClass->setReadOnly(true);
-    spinIntimidateClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinIntimidateAbility = new QSpinBox;
-    spinIntimidateAbility->setValue(0);
-    spinIntimidateAbility->setReadOnly(true);
-    spinIntimidateAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinIntimidateOther = new QSpinBox;
-    spinIntimidateOther->setValue(0);
-    spinIntimidateOther->setReadOnly(true);
-    spinIntimidateOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinIntimidateTotal = new QSpinBox;
-    spinIntimidateTotal->setValue(0);
-    spinIntimidateTotal->setReadOnly(true);
-    spinIntimidateTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // KnArcana
-    QLabel *labelKnArcana = new QLabel;
-    labelKnArcana->setText("KnArcana");
-
-    QSpinBox *spinKnArcanaRank = new QSpinBox;
-    spinKnArcanaRank->setValue(0);
-    spinKnArcanaRank->setMinimum(0);
-    spinKnArcanaRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinKnArcanaClass = new QSpinBox;
-    spinKnArcanaClass->setValue(0);
-    spinKnArcanaClass->setReadOnly(true);
-    spinKnArcanaClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnArcanaAbility = new QSpinBox;
-    spinKnArcanaAbility->setValue(0);
-    spinKnArcanaAbility->setReadOnly(true);
-    spinKnArcanaAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnArcanaOther = new QSpinBox;
-    spinKnArcanaOther->setValue(0);
-    spinKnArcanaOther->setReadOnly(true);
-    spinKnArcanaOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnArcanaTotal = new QSpinBox;
-    spinKnArcanaTotal->setValue(0);
-    spinKnArcanaTotal->setReadOnly(true);
-    spinKnArcanaTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // KnDungeoneering
-    QLabel *labelKnDungeoneering = new QLabel;
-    labelKnDungeoneering->setText("KnDungeoneering");
-
-    QSpinBox *spinKnDungeoneeringRank = new QSpinBox;
-    spinKnDungeoneeringRank->setValue(0);
-    spinKnDungeoneeringRank->setMinimum(0);
-    spinKnDungeoneeringRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinKnDungeoneeringClass = new QSpinBox;
-    spinKnDungeoneeringClass->setValue(0);
-    spinKnDungeoneeringClass->setReadOnly(true);
-    spinKnDungeoneeringClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnDungeoneeringAbility = new QSpinBox;
-    spinKnDungeoneeringAbility->setValue(0);
-    spinKnDungeoneeringAbility->setReadOnly(true);
-    spinKnDungeoneeringAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnDungeoneeringOther = new QSpinBox;
-    spinKnDungeoneeringOther->setValue(0);
-    spinKnDungeoneeringOther->setReadOnly(true);
-    spinKnDungeoneeringOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnDungeoneeringTotal = new QSpinBox;
-    spinKnDungeoneeringTotal->setValue(0);
-    spinKnDungeoneeringTotal->setReadOnly(true);
-    spinKnDungeoneeringTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // KnEngineering
-    QLabel *labelKnEngineering = new QLabel;
-    labelKnEngineering->setText("KnEngineering");
-
-    QSpinBox *spinKnEngineeringRank = new QSpinBox;
-    spinKnEngineeringRank->setValue(0);
-    spinKnEngineeringRank->setMinimum(0);
-    spinKnEngineeringRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinKnEngineeringClass = new QSpinBox;
-    spinKnEngineeringClass->setValue(0);
-    spinKnEngineeringClass->setReadOnly(true);
-    spinKnEngineeringClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnEngineeringAbility = new QSpinBox;
-    spinKnEngineeringAbility->setValue(0);
-    spinKnEngineeringAbility->setReadOnly(true);
-    spinKnEngineeringAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnEngineeringOther = new QSpinBox;
-    spinKnEngineeringOther->setValue(0);
-    spinKnEngineeringOther->setReadOnly(true);
-    spinKnEngineeringOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnEngineeringTotal = new QSpinBox;
-    spinKnEngineeringTotal->setValue(0);
-    spinKnEngineeringTotal->setReadOnly(true);
-    spinKnEngineeringTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // KnGeography
-    QLabel *labelKnGeography = new QLabel;
-    labelKnGeography->setText("KnGeography");
-
-    QSpinBox *spinKnGeographyRank = new QSpinBox;
-    spinKnGeographyRank->setValue(0);
-    spinKnGeographyRank->setMinimum(0);
-    spinKnGeographyRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinKnGeographyClass = new QSpinBox;
-    spinKnGeographyClass->setValue(0);
-    spinKnGeographyClass->setReadOnly(true);
-    spinKnGeographyClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnGeographyAbility = new QSpinBox;
-    spinKnGeographyAbility->setValue(0);
-    spinKnGeographyAbility->setReadOnly(true);
-    spinKnGeographyAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnGeographyOther = new QSpinBox;
-    spinKnGeographyOther->setValue(0);
-    spinKnGeographyOther->setReadOnly(true);
-    spinKnGeographyOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnGeographyTotal = new QSpinBox;
-    spinKnGeographyTotal->setValue(0);
-    spinKnGeographyTotal->setReadOnly(true);
-    spinKnGeographyTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // KnHistory
-    QLabel *labelKnHistory = new QLabel;
-    labelKnHistory->setText("KnHistory");
-
-    QSpinBox *spinKnHistoryRank = new QSpinBox;
-    spinKnHistoryRank->setValue(0);
-    spinKnHistoryRank->setMinimum(0);
-    spinKnHistoryRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinKnHistoryClass = new QSpinBox;
-    spinKnHistoryClass->setValue(0);
-    spinKnHistoryClass->setReadOnly(true);
-    spinKnHistoryClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnHistoryAbility = new QSpinBox;
-    spinKnHistoryAbility->setValue(0);
-    spinKnHistoryAbility->setReadOnly(true);
-    spinKnHistoryAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnHistoryOther = new QSpinBox;
-    spinKnHistoryOther->setValue(0);
-    spinKnHistoryOther->setReadOnly(true);
-    spinKnHistoryOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnHistoryTotal = new QSpinBox;
-    spinKnHistoryTotal->setValue(0);
-    spinKnHistoryTotal->setReadOnly(true);
-    spinKnHistoryTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // KnLocal
-    QLabel *labelKnLocal = new QLabel;
-    labelKnLocal->setText("KnLocal");
-
-    QSpinBox *spinKnLocalRank = new QSpinBox;
-    spinKnLocalRank->setValue(0);
-    spinKnLocalRank->setMinimum(0);
-    spinKnLocalRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinKnLocalClass = new QSpinBox;
-    spinKnLocalClass->setValue(0);
-    spinKnLocalClass->setReadOnly(true);
-    spinKnLocalClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnLocalAbility = new QSpinBox;
-    spinKnLocalAbility->setValue(0);
-    spinKnLocalAbility->setReadOnly(true);
-    spinKnLocalAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnLocalOther = new QSpinBox;
-    spinKnLocalOther->setValue(0);
-    spinKnLocalOther->setReadOnly(true);
-    spinKnLocalOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnLocalTotal = new QSpinBox;
-    spinKnLocalTotal->setValue(0);
-    spinKnLocalTotal->setReadOnly(true);
-    spinKnLocalTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // KnNature
-    QLabel *labelKnNature = new QLabel;
-    labelKnNature->setText("KnNature");
-
-    QSpinBox *spinKnNatureRank = new QSpinBox;
-    spinKnNatureRank->setValue(0);
-    spinKnNatureRank->setMinimum(0);
-    spinKnNatureRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinKnNatureClass = new QSpinBox;
-    spinKnNatureClass->setValue(0);
-    spinKnNatureClass->setReadOnly(true);
-    spinKnNatureClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnNatureAbility = new QSpinBox;
-    spinKnNatureAbility->setValue(0);
-    spinKnNatureAbility->setReadOnly(true);
-    spinKnNatureAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnNatureOther = new QSpinBox;
-    spinKnNatureOther->setValue(0);
-    spinKnNatureOther->setReadOnly(true);
-    spinKnNatureOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnNatureTotal = new QSpinBox;
-    spinKnNatureTotal->setValue(0);
-    spinKnNatureTotal->setReadOnly(true);
-    spinKnNatureTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    // KnNobility
-    QLabel *labelKnNobility = new QLabel;
-    labelKnNobility->setText("KnNobility");
-
-    QSpinBox *spinKnNobilityRank = new QSpinBox;
-    spinKnNobilityRank->setValue(0);
-    spinKnNobilityRank->setMinimum(0);
-    spinKnNobilityRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinKnNobilityClass = new QSpinBox;
-    spinKnNobilityClass->setValue(0);
-    spinKnNobilityClass->setReadOnly(true);
-    spinKnNobilityClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnNobilityAbility = new QSpinBox;
-    spinKnNobilityAbility->setValue(0);
-    spinKnNobilityAbility->setReadOnly(true);
-    spinKnNobilityAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnNobilityOther = new QSpinBox;
-    spinKnNobilityOther->setValue(0);
-    spinKnNobilityOther->setReadOnly(true);
-    spinKnNobilityOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinKnNobilityTotal = new QSpinBox;
-    spinKnNobilityTotal->setValue(0);
-    spinKnNobilityTotal->setReadOnly(true);
-    spinKnNobilityTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
+    createSkill("Acrobatics",1);
+    createSkill("Appraise",2);
+    createSkill("Bluff",3);
+    createSkill("Climb",4);
+    createSkill("Craft",5);
+    createSkill("Diplomacy",6);
+    createSkill("Disable Device",7);
+    createSkill("Disguise",8);
+    createSkill("Escape Artist",9);
+    createSkill("Fly",10);
+    createSkill("Handle Animal",11);
+    createSkill("Heal",12);
+    createSkill("Intimidate",13);
+    createSkill("KnArcana",14);
+    createSkill("KnDungeon",15);
+    createSkill("KnEngineering",16);
+    createSkill("KnGeography",17);
+    createSkill("KnHistory",18);
+    createSkill("KnLocal",19);
+    createSkill("KnNature",20);
+    createSkill("KnNobility",21);
+    createSkill("KnPlanes",22);
+    createSkill("KnReligion",23);
+    createSkill("Linguistics",24);
+    createSkill("Perception",25);
+    createSkill("Perform",26);
+    createSkill("Profession",27);
+    createSkill("Ride",28);
+    createSkill("Sense Motive",29);
+    createSkill("Sleight of Hand",30);
+    createSkill("Spellcraft",31);
+    createSkill("Stealth",32);
+    createSkill("Survival",33);
+    createSkill("Swim",34);
+    createSkill("Use Magic Device",35);
 
     gridSkill->addWidget(labelSkill,0,0);
     gridSkill->addWidget(labelSkillRank,0,1);
@@ -921,152 +398,10 @@ void MainWindow::makeNewChar()
     gridSkill->addWidget(labelSkillOther,0,4);
     gridSkill->addWidget(labelSkillTotal,0,5);
 
-
-
-    gridSkill->addWidget(labelAppraise,3,0);
-    gridSkill->addWidget(spinAppraiseRank,3,1);
-    gridSkill->addWidget(spinAppraiseClass,3,2);
-    gridSkill->addWidget(spinAppraiseAbility,3,3);
-    gridSkill->addWidget(spinAppraiseOther,3,4);
-    gridSkill->addWidget(spinAppraiseTotal,3,5);
-
-    gridSkill->addWidget(labelBluff,4,0);
-    gridSkill->addWidget(spinBluffRank,4,1);
-    gridSkill->addWidget(spinBluffClass,4,2);
-    gridSkill->addWidget(spinBluffAbility,4,3);
-    gridSkill->addWidget(spinBluffOther,4,4);
-    gridSkill->addWidget(spinBluffTotal,4,5);
-
-    gridSkill->addWidget(labelCraft1,5,0);
-    gridSkill->addWidget(spinCraft1Rank,5,1);
-    gridSkill->addWidget(spinCraft1Class,5,2);
-    gridSkill->addWidget(spinCraft1Ability,5,3);
-    gridSkill->addWidget(spinCraft1Other,5,4);
-    gridSkill->addWidget(spinCraft1Total,5,5);
-
-    gridSkill->addWidget(labelCraft2,6,0);
-    gridSkill->addWidget(spinCraft2Rank,6,1);
-    gridSkill->addWidget(spinCraft2Class,6,2);
-    gridSkill->addWidget(spinCraft2Ability,6,3);
-    gridSkill->addWidget(spinCraft2Other,6,4);
-    gridSkill->addWidget(spinCraft2Total,6,5);
-
-    gridSkill->addWidget(labelDiplomacy,7,0);
-    gridSkill->addWidget(spinDiplomacyRank,7,1);
-    gridSkill->addWidget(spinDiplomacyClass,7,2);
-    gridSkill->addWidget(spinDiplomacyAbility,7,3);
-    gridSkill->addWidget(spinDiplomacyOther,7,4);
-    gridSkill->addWidget(spinDiplomacyTotal,7,5);
-
-    gridSkill->addWidget(labelDisableDevice,8,0);
-    gridSkill->addWidget(spinDisableDeviceRank,8,1);
-    gridSkill->addWidget(spinDisableDeviceClass,8,2);
-    gridSkill->addWidget(spinDisableDeviceAbility,8,3);
-    gridSkill->addWidget(spinDisableDeviceOther,8,4);
-    gridSkill->addWidget(spinDisableDeviceTotal,8,5);
-
-    gridSkill->addWidget(labelDisguise,9,0);
-    gridSkill->addWidget(spinDisguiseRank,9,1);
-    gridSkill->addWidget(spinDisguiseClass,9,2);
-    gridSkill->addWidget(spinDisguiseAbility,9,3);
-    gridSkill->addWidget(spinDisguiseOther,9,4);
-    gridSkill->addWidget(spinDisguiseTotal,9,5);
-
-    gridSkill->addWidget(labelEscapeArtist,10,0);
-    gridSkill->addWidget(spinEscapeArtistRank,10,1);
-    gridSkill->addWidget(spinEscapeArtistClass,10,2);
-    gridSkill->addWidget(spinEscapeArtistAbility,10,3);
-    gridSkill->addWidget(spinEscapeArtistOther,10,4);
-    gridSkill->addWidget(spinEscapeArtistTotal,10,5);
-
-    gridSkill->addWidget(labelFly,11,0);
-    gridSkill->addWidget(spinFlyRank,11,1);
-    gridSkill->addWidget(spinFlyClass,11,2);
-    gridSkill->addWidget(spinFlyAbility,11,3);
-    gridSkill->addWidget(spinFlyOther,11,4);
-    gridSkill->addWidget(spinFlyTotal,11,5);
-
-    gridSkill->addWidget(labelHandleAnimal,12,0);
-    gridSkill->addWidget(spinHandleAnimalRank,12,1);
-    gridSkill->addWidget(spinHandleAnimalClass,12,2);
-    gridSkill->addWidget(spinHandleAnimalAbility,12,3);
-    gridSkill->addWidget(spinHandleAnimalOther,12,4);
-    gridSkill->addWidget(spinHandleAnimalTotal,12,5);
-
-    gridSkill->addWidget(labelHeal,13,0);
-    gridSkill->addWidget(spinHealRank,13,1);
-    gridSkill->addWidget(spinHealClass,13,2);
-    gridSkill->addWidget(spinHealAbility,13,3);
-    gridSkill->addWidget(spinHealOther,13,4);
-    gridSkill->addWidget(spinHealTotal,13,5);
-
-    gridSkill->addWidget(labelIntimidate,14,0);
-    gridSkill->addWidget(spinIntimidateRank,14,1);
-    gridSkill->addWidget(spinIntimidateClass,14,2);
-    gridSkill->addWidget(spinIntimidateAbility,14,3);
-    gridSkill->addWidget(spinIntimidateOther,14,4);
-    gridSkill->addWidget(spinIntimidateTotal,14,5);
-
-    gridSkill->addWidget(labelKnArcana,15,0);
-    gridSkill->addWidget(spinKnArcanaRank,15,1);
-    gridSkill->addWidget(spinKnArcanaClass,15,2);
-    gridSkill->addWidget(spinKnArcanaAbility,15,3);
-    gridSkill->addWidget(spinKnArcanaOther,15,4);
-    gridSkill->addWidget(spinKnArcanaTotal,15,5);
-
-    gridSkill->addWidget(labelKnDungeoneering,16,0);
-    gridSkill->addWidget(spinKnDungeoneeringRank,16,1);
-    gridSkill->addWidget(spinKnDungeoneeringClass,16,2);
-    gridSkill->addWidget(spinKnDungeoneeringAbility,16,3);
-    gridSkill->addWidget(spinKnDungeoneeringOther,16,4);
-    gridSkill->addWidget(spinKnDungeoneeringTotal,16,5);
-
-    gridSkill->addWidget(labelKnEngineering,17,0);
-    gridSkill->addWidget(spinKnEngineeringRank,17,1);
-    gridSkill->addWidget(spinKnEngineeringClass,17,2);
-    gridSkill->addWidget(spinKnEngineeringAbility,17,3);
-    gridSkill->addWidget(spinKnEngineeringOther,17,4);
-    gridSkill->addWidget(spinKnEngineeringTotal,17,5);
-
-    gridSkill->addWidget(labelKnGeography,18,0);
-    gridSkill->addWidget(spinKnGeographyRank,18,1);
-    gridSkill->addWidget(spinKnGeographyClass,18,2);
-    gridSkill->addWidget(spinKnGeographyAbility,18,3);
-    gridSkill->addWidget(spinKnGeographyOther,18,4);
-    gridSkill->addWidget(spinKnGeographyTotal,18,5);
-
-    gridSkill->addWidget(labelKnHistory,19,0);
-    gridSkill->addWidget(spinKnHistoryRank,19,1);
-    gridSkill->addWidget(spinKnHistoryClass,19,2);
-    gridSkill->addWidget(spinKnHistoryAbility,19,3);
-    gridSkill->addWidget(spinKnHistoryOther,19,4);
-    gridSkill->addWidget(spinKnHistoryTotal,19,5);
-
-    gridSkill->addWidget(labelKnLocal,20,0);
-    gridSkill->addWidget(spinKnLocalRank,20,1);
-    gridSkill->addWidget(spinKnLocalClass,20,2);
-    gridSkill->addWidget(spinKnLocalAbility,20,3);
-    gridSkill->addWidget(spinKnLocalOther,20,4);
-    gridSkill->addWidget(spinKnLocalTotal,20,5);
-
-    gridSkill->addWidget(labelKnNature,21,0);
-    gridSkill->addWidget(spinKnNatureRank,21,1);
-    gridSkill->addWidget(spinKnNatureClass,21,2);
-    gridSkill->addWidget(spinKnNatureAbility,21,3);
-    gridSkill->addWidget(spinKnNatureOther,21,4);
-    gridSkill->addWidget(spinKnNatureTotal,21,5);
-
-    gridSkill->addWidget(labelKnNobility,22,0);
-    gridSkill->addWidget(spinKnNobilityRank,22,1);
-    gridSkill->addWidget(spinKnNobilityClass,22,2);
-    gridSkill->addWidget(spinKnNobilityAbility,22,3);
-    gridSkill->addWidget(spinKnNobilityOther,22,4);
-    gridSkill->addWidget(spinKnNobilityTotal,22,5);
-
     // Layout for overall page
     QGridLayout *layout = new QGridLayout;
-    layout->addLayout(leftLayout,0,0);
-    layout->addLayout(gridSkill,0,1,2,1);
+    layout->addLayout(leftLayout,0,0,11,1);
+    layout->addLayout(gridSkill,0,1,19,2);
 
     centralZone->setLayout(layout);
 
