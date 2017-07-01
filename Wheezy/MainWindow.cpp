@@ -25,8 +25,10 @@ MainWindow::MainWindow()
     setCentralWidget(centralZone);
 }
 
-void MainWindow::createAbilities()
+void MainWindow::initiateAbilities()
 {
+    groupAbility = new QGroupBox("Abilities");
+    groupAbility->setAlignment(Qt::AlignHCenter);
     gridAbility = new QGridLayout;
 
     GridHeader *labelAbility = new GridHeader("Ability");
@@ -36,52 +38,75 @@ void MainWindow::createAbilities()
     GridHeader *labelAbilityBonus = new GridHeader("Bonus");
 
     radioSTR = new QRadioButton("STR");
+    radioSTR->setFixedWidth(45);
     connect(radioSTR,SIGNAL(toggled(bool)),this,SLOT(updateAbilities()));
+
     radioDEX = new QRadioButton("DEX");
+    radioDEX->setFixedWidth(45);
     connect(radioDEX,SIGNAL(toggled(bool)),this,SLOT(updateAbilities()));
+
     radioCON = new QRadioButton("CON");
+    radioCON->setFixedWidth(45);
     connect(radioCON,SIGNAL(toggled(bool)),this,SLOT(updateAbilities()));
+
     radioINT = new QRadioButton("INT");
+    radioINT->setFixedWidth(45);
     connect(radioINT,SIGNAL(toggled(bool)),this,SLOT(updateAbilities()));
+
     radioWIS = new QRadioButton("WIS");
+    radioWIS->setFixedWidth(45);
     connect(radioWIS,SIGNAL(toggled(bool)),this,SLOT(updateAbilities()));
+
     radioCHA = new QRadioButton("CHA");
+    radioCHA->setFixedWidth(45);
     connect(radioCHA,SIGNAL(toggled(bool)),this,SLOT(updateAbilities()));
 
     spinRollSTR = new QSpinBox;
     spinRollSTR->setValue(14);
     spinRollSTR->setMinimum(4);
     spinRollSTR->setMaximum(24);
+    spinRollSTR->setAlignment(Qt::AlignHCenter);
+    spinRollSTR->setFixedWidth(45);
     connect(spinRollSTR,SIGNAL(valueChanged(int)),this,SLOT(updateAbilities()));
 
     spinRollDEX = new QSpinBox;
     spinRollDEX->setValue(14);
     spinRollDEX->setMinimum(4);
     spinRollDEX->setMaximum(24);
+    spinRollDEX->setAlignment(Qt::AlignHCenter);
+    spinRollDEX->setFixedWidth(45);
     connect(spinRollDEX,SIGNAL(valueChanged(int)),this,SLOT(updateAbilities()));
 
     spinRollCON = new QSpinBox;
     spinRollCON->setValue(14);
     spinRollCON->setMinimum(4);
     spinRollCON->setMaximum(24);
+    spinRollCON->setAlignment(Qt::AlignHCenter);
+    spinRollCON->setFixedWidth(45);
     connect(spinRollCON,SIGNAL(valueChanged(int)),this,SLOT(updateAbilities()));
 
     spinRollINT = new QSpinBox;
     spinRollINT->setValue(14);
     spinRollINT->setMinimum(4);
     spinRollINT->setMaximum(24);
+    spinRollINT->setAlignment(Qt::AlignHCenter);
+    spinRollINT->setFixedWidth(45);
     connect(spinRollINT,SIGNAL(valueChanged(int)),this,SLOT(updateAbilities()));
 
     spinRollWIS = new QSpinBox;
     spinRollWIS->setValue(14);
     spinRollWIS->setMinimum(4);
     spinRollWIS->setMaximum(24);
+    spinRollWIS->setAlignment(Qt::AlignHCenter);
+    spinRollWIS->setFixedWidth(45);
     connect(spinRollWIS,SIGNAL(valueChanged(int)),this,SLOT(updateAbilities()));
 
     spinRollCHA = new QSpinBox;
     spinRollCHA->setValue(14);
     spinRollCHA->setMinimum(4);
     spinRollCHA->setMaximum(24);
+    spinRollCHA->setAlignment(Qt::AlignHCenter);
+    spinRollCHA->setFixedWidth(45);
     connect(spinRollCHA,SIGNAL(valueChanged(int)),this,SLOT(updateAbilities()));
 
     spinRaceSTR = new AbilitySpinBox;
@@ -154,64 +179,405 @@ void MainWindow::createAbilities()
     gridAbility->addWidget(spinBonusINT,row++,col);
     gridAbility->addWidget(spinBonusWIS,row++,col);
     gridAbility->addWidget(spinBonusCHA,row++,col);
+
+    groupAbility->setLayout(gridAbility);
 }
 
-void MainWindow::createSkill(QString name,int row)
+void MainWindow::updateAlignment()
 {
-    int col(0);
-    if (row > 18)
-    {
-        row -= 18;
-        col = 6;
+    alignmentL->setEnabled(true);
+    alignmentN1->setEnabled(true);
+    alignmentC->setEnabled(true);
+    alignmentG->setEnabled(true);
+    alignmentN2->setEnabled(true);
+    alignmentE->setEnabled(true);
+
+    int classIndex = coreClasses->currentIndex();
+    switch (classIndex) {
+    case 1: //Barbarian
+        // Any non-lawful
+        alignmentL->setEnabled(false);
+        break;
+    case 2: // Bard
+        break;
+    case 3: // Cleric
+        // Some Bullshit about one step from diety
+        // TO DO - include deity in character. Too
+        // Hard for now.
+        break;
+    case 4: // Druid
+        // Any neutral
+        if (alignmentN1->isChecked() && !alignmentN2->isChecked())
+        {
+            alignmentL->setEnabled(false);
+            alignmentC->setEnabled(false);
+        }
+        else if (!alignmentN1->isChecked() && alignmentN2->isChecked())
+        {
+            alignmentG->setEnabled(false);
+            alignmentE->setEnabled(false);
+        }
+        break;
+    case 5: // Fighter
+        break;
+    case 6: // Monk
+        // Any lawful
+        alignmentN1->setEnabled(false);
+        alignmentC->setEnabled(false);
+        break;
+    case 7: // Paladin
+        // Lawful good
+        alignmentN1->setEnabled(false);
+        alignmentC->setEnabled(false);
+        alignmentN2->setEnabled(false);
+        alignmentE->setEnabled(false);
+        alignmentL->setChecked(true);
+        alignmentG->setChecked(true);
+        break;
+    case 8: // Ranger
+        break;
+    case 9: // Rogue
+        break;
+    case 10: // Sorcerer
+        break;
+    case 11: // Wizard
+        break;
+    case 0: // No class selection
+        break;
     }
-
-    QLabel *label = new QLabel;
-    label->setText(name);
-
-    QSpinBox *spinRank = new QSpinBox;
-    spinRank->setValue(0);
-    spinRank->setMinimum(0);
-    spinRank->setMaximum(1); // Level is maximum
-
-    QSpinBox *spinClass = new QSpinBox;
-    spinClass->setValue(0);
-    spinClass->setReadOnly(true);
-    spinClass->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinAbility = new QSpinBox;
-    spinAbility->setValue(0);
-    spinAbility->setReadOnly(true);
-    spinAbility->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinOther = new QSpinBox;
-    spinOther->setValue(0);
-    spinOther->setReadOnly(true);
-    spinOther->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    QSpinBox *spinTotal = new QSpinBox;
-    spinTotal->setValue(0);
-    spinTotal->setReadOnly(true);
-    spinTotal->setButtonSymbols(QAbstractSpinBox::NoButtons);
-
-    gridSkill->addWidget(label,row,col);
-    gridSkill->addWidget(spinRank,row,col+1);
-    gridSkill->addWidget(spinClass,row,col+2);
-    gridSkill->addWidget(spinAbility,row,col+3);
-    gridSkill->addWidget(spinOther,row,col+4);
-    gridSkill->addWidget(spinTotal,row,col+5);
-
 }
 
 
+
+void MainWindow::initiateAlignment()
+{
+    // Initial Alignment
+    layoutLNC = new QVBoxLayout;
+    layoutLNC->addWidget(alignmentL);
+    layoutLNC->addWidget(alignmentN1);
+    layoutLNC->addWidget(alignmentC);
+
+    layoutGNE = new QVBoxLayout;
+    layoutGNE->addWidget(alignmentG);
+    layoutGNE->addWidget(alignmentN2);
+    layoutGNE->addWidget(alignmentE);
+
+    groupAlignmentLNC->setLayout(layoutLNC);
+    groupAlignmentGNE->setLayout(layoutGNE);
+
+    layoutAlignment->addWidget(groupAlignmentLNC);
+    layoutAlignment->addWidget(groupAlignmentGNE);
+
+    alignmentN1->setChecked(true);
+    alignmentN2->setChecked(true);
+}
+
+void MainWindow::initiateHitDie()
+{
+    groupHit = new QGroupBox("Hit Dice");
+    groupHit->setFixedWidth(leftWidth);
+    groupHit->setAlignment(Qt::AlignHCenter);
+
+    labelHitDie = new QLabel("1d8");
+
+    spinHit = new QSpinBox();
+    spinHit->setValue(0);
+    spinHit->setSuffix(" HP");
+    spinHit->setAlignment(Qt::AlignHCenter);
+
+    layoutHit = new QHBoxLayout;
+    layoutHit->addWidget(labelHitDie);
+    layoutHit->addWidget(spinHit);
+
+    groupHit->setLayout(layoutHit);
+}
+
+void MainWindow::updateHitDie()
+{
+    int classIndex = coreClasses->currentIndex();
+    switch (classIndex) {
+    case 1: //Barbarian
+        labelHitDie->setText("1d12");
+        spinHit->setMaximum(12);
+        break;
+    case 2: // Bard
+        labelHitDie->setText("1d8");
+        spinHit->setMaximum(8);
+        break;
+    case 3: // Cleric
+        labelHitDie->setText("1d8");
+        spinHit->setMaximum(8);
+        break;
+    case 4: // Druid
+        labelHitDie->setText("1d8");
+        spinHit->setMaximum(8);
+        break;
+    case 5: // Fighter
+        labelHitDie->setText("1d10");
+        spinHit->setMaximum(10);
+        break;
+    case 6: // Monk
+        labelHitDie->setText("1d8");
+        spinHit->setMaximum(8);
+        break;
+    case 7: // Paladin
+        labelHitDie->setText("1d10");
+        spinHit->setMaximum(10);
+        break;
+    case 8: // Ranger
+        labelHitDie->setText("1d10");
+        spinHit->setMaximum(10);
+        break;
+    case 9: // Rogue
+        labelHitDie->setText("1d8");
+        spinHit->setMaximum(8);
+        break;
+    case 10: // Sorcerer
+        labelHitDie->setText("1d6");
+        spinHit->setMaximum(6);
+        break;
+    case 11: // Wizard
+        labelHitDie->setText("1d6");
+        spinHit->setMaximum(6);
+        break;
+    case 0: // No class selection
+        labelHitDie->setText("1d8");
+        spinHit->setMaximum(8);
+        break;
+    }
+}
+
+void MainWindow::initiateGold()
+{
+    groupGold = new QGroupBox("Starting Gold");
+    groupHit->setFixedWidth(leftWidth);
+    groupHit->setAlignment(Qt::AlignHCenter);
+
+    labelGoldDie = new QLabel("3d6 x 10 gp");
+
+    spinGold = new QSpinBox;
+    spinGold->setMaximum(180);
+    spinGold->setValue(105);
+    spinGold->setSuffix(" gp");
+    spinGold->setAlignment(Qt::AlignHCenter);
+
+    layoutGold = new QHBoxLayout;
+    layoutGold->addWidget(labelGoldDie);
+    layoutGold->addWidget(spinGold);
+
+    groupGold->setLayout(layoutGold);
+}
+
+void MainWindow::updateGold()
+{
+    int classIndex = coreClasses->currentIndex();
+    switch (classIndex) {
+    case 1: //Barbarian
+        labelGoldDie->setText("3d6 x 10 gp");
+        spinGold->setMaximum(180);
+        spinGold->setValue(105);
+        break;
+    case 2: // Bard
+        labelGoldDie->setText("3d6 x 10 gp");
+        spinGold->setMaximum(180);
+        spinGold->setValue(105);
+        break;
+    case 3: // Cleric
+        labelGoldDie->setText("4d6 x 10 gp");
+        spinGold->setMaximum(240);
+        spinGold->setValue(180);
+        break;
+    case 4: // Druid
+        labelGoldDie->setText("2d6 x 10 gp");
+        spinGold->setMaximum(120);
+        spinGold->setValue(70);
+        break;
+    case 5: // Fighter
+        labelGoldDie->setText("5d6 x 10 gp");
+        spinGold->setMaximum(300);
+        spinGold->setValue(175);
+        break;
+    case 6: // Monk
+        labelGoldDie->setText("1d6 x 10 gp");
+        spinGold->setMaximum(60);
+        spinGold->setValue(35);
+        break;
+    case 7: // Paladin
+        labelGoldDie->setText("5d6 x 10 gp");
+        spinGold->setMaximum(300);
+        spinGold->setValue(175);
+        break;
+    case 8: // Ranger
+        labelGoldDie->setText("5d6 x 10 gp");
+        spinGold->setMaximum(300);
+        spinGold->setValue(175);
+        break;
+    case 9: // Rogue
+        labelGoldDie->setText("4d6 x 10 gp");
+        spinGold->setMaximum(240);
+        spinGold->setValue(140);
+        break;
+    case 10: // Sorcerer
+        labelGoldDie->setText("2d6 x 10 gp");
+        spinGold->setMaximum(120);
+        spinGold->setValue(70);
+        break;
+    case 11: // Wizard
+        labelGoldDie->setText("2d6 x 10 gp");
+        spinGold->setMaximum(120);
+        spinGold->setValue(70);
+        break;
+    case 0: // No class selection
+        labelGoldDie->setText("3d6 x 10 gp");
+        spinGold->setMaximum(180);
+        spinGold->setValue(105);
+        break;
+    }
+}
+
+void MainWindow::initiateSkill()
+{
+    int i(1);
+    rowAcrobatics = new SkillRow("Acrobatics",i++);
+    rowAppraise = new SkillRow("Appraise",i++);
+    rowBluff = new SkillRow("Bluff",i++);
+    rowClimb = new SkillRow("Climb",i++);
+    rowCraft = new SkillRow("Craft",i++);
+    rowDiplomacy = new SkillRow("Diplomacy",i++);
+    rowDisableDevice = new SkillRow("Disable Device",i++);
+    rowDisguise = new SkillRow("Disguise",i++);
+    rowEscapeArtist = new SkillRow("Escape Artist",i++);
+    rowFly = new SkillRow("Fly",i++);
+    rowHandleAnimal = new SkillRow("Handle Animal",i++);
+    rowHeal = new SkillRow("Heal",i++);
+    rowIntimidate = new SkillRow("Intimidate",i++);
+    rowKnArcana = new SkillRow("Kn. Arcana",i++);
+    rowKnDungeoneering = new SkillRow("Kn. Dungeoneering",i++);
+    rowKnEngineering = new SkillRow("Kn. Engineering",i++);
+    rowKnGeography = new SkillRow("Kn. Geography",i++);
+    rowKnHistory = new SkillRow("Kn. Hystory",i++);
+    rowKnLocal = new SkillRow("Kn. Local",i++);
+    rowKnNature = new SkillRow("Kn. Nature",i++);
+    rowKnNobility = new SkillRow("Kn. Nobility",i++);
+    rowKnPlanes = new SkillRow("Kn. Planes",i++);
+    rowKnReligion = new SkillRow("Kn. Religion",i++);
+    rowLinguistics = new SkillRow("Linguistics",i++);
+    rowPerception = new SkillRow("Perception",i++);
+    rowPerform = new SkillRow("Perform",i++);
+    rowProfession = new SkillRow("Profession",i++);
+    rowRide = new SkillRow("Ride",i++);
+    rowSenseMotive = new SkillRow("Sense Motive",i++);
+    rowSleighOfHand = new SkillRow("Sleight of Hand",i++);
+    rowSpellcraft = new SkillRow("Spellcraft",i++);
+    rowStealth = new SkillRow("Stealth",i++);
+    rowSurvival = new SkillRow("Survival",i++);
+    rowSwim = new SkillRow("Swim",i++);
+    rowUseMagicDevice = new SkillRow("Use Magic Device",i++);
+
+    updateSkill();
+
+    layoutSkillRow = new QVBoxLayout;
+
+    QWidget *scrollAreaContent = new QWidget;
+    scrollAreaContent->setLayout(layoutSkillRow);
+    scrollAreaSkill = new QScrollArea;
+    scrollAreaSkill->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollAreaSkill->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollAreaSkill->setWidgetResizable(true);
+    scrollAreaSkill->setFixedWidth(400);
+    scrollAreaSkill->setWidget(scrollAreaContent);
+
+    layoutSkillRow->addLayout(layoutLabelSkill);
+    layoutSkillRow->addLayout(rowAcrobatics);
+    layoutSkillRow->addLayout(rowAppraise);
+    layoutSkillRow->addLayout(rowBluff);
+    layoutSkillRow->addLayout(rowClimb);
+    layoutSkillRow->addLayout(rowCraft);
+    layoutSkillRow->addLayout(rowDiplomacy);
+    layoutSkillRow->addLayout(rowDisableDevice);
+    layoutSkillRow->addLayout(rowDisguise);
+    layoutSkillRow->addLayout(rowEscapeArtist);
+    layoutSkillRow->addLayout(rowFly);
+    layoutSkillRow->addLayout(rowHandleAnimal);
+    layoutSkillRow->addLayout(rowHeal);
+    layoutSkillRow->addLayout(rowIntimidate);
+    layoutSkillRow->addLayout(rowKnArcana);
+    layoutSkillRow->addLayout(rowKnDungeoneering);
+    layoutSkillRow->addLayout(rowKnEngineering);
+    layoutSkillRow->addLayout(rowKnGeography);
+    layoutSkillRow->addLayout(rowKnHistory);
+    layoutSkillRow->addLayout(rowKnLocal);
+    layoutSkillRow->addLayout(rowKnNature);
+    layoutSkillRow->addLayout(rowKnNobility);
+    layoutSkillRow->addLayout(rowKnPlanes);
+    layoutSkillRow->addLayout(rowKnReligion);
+    layoutSkillRow->addLayout(rowLinguistics);
+    layoutSkillRow->addLayout(rowPerception);
+    layoutSkillRow->addLayout(rowPerform);
+    layoutSkillRow->addLayout(rowProfession);
+    layoutSkillRow->addLayout(rowRide);
+    layoutSkillRow->addLayout(rowSenseMotive);
+    layoutSkillRow->addLayout(rowSleighOfHand);
+    layoutSkillRow->addLayout(rowSpellcraft);
+    layoutSkillRow->addLayout(rowStealth);
+    layoutSkillRow->addLayout(rowSurvival);
+    layoutSkillRow->addLayout(rowSwim);
+    layoutSkillRow->addLayout(rowUseMagicDevice);
+}
+
+void MainWindow::resetClassSkill()
+{
+    rowAcrobatics->resetClassSkill();
+    rowAppraise->resetClassSkill();
+    rowBluff->resetClassSkill();
+    rowClimb->resetClassSkill();;
+    rowCraft->resetClassSkill();
+    rowDiplomacy->resetClassSkill();
+    rowDisableDevice->resetClassSkill();
+    rowDisguise->resetClassSkill();
+    rowEscapeArtist->resetClassSkill();
+    rowFly->resetClassSkill();
+    rowHandleAnimal->resetClassSkill();
+    rowHeal->resetClassSkill();
+    rowIntimidate->resetClassSkill();
+    rowKnArcana->resetClassSkill();
+    rowKnDungeoneering->resetClassSkill();
+    rowKnEngineering->resetClassSkill();
+    rowKnGeography->resetClassSkill();
+    rowKnHistory->resetClassSkill();
+    rowKnLocal->resetClassSkill();
+    rowKnNature->resetClassSkill();
+    rowKnNobility->resetClassSkill();
+    rowKnPlanes->resetClassSkill();
+    rowKnReligion->resetClassSkill();
+    rowLinguistics->resetClassSkill();
+    rowPerception->resetClassSkill();
+    rowPerform->resetClassSkill();
+    rowProfession->resetClassSkill();
+    rowRide->resetClassSkill();
+    rowSenseMotive->resetClassSkill();
+    rowSleighOfHand->resetClassSkill();
+    rowSpellcraft->resetClassSkill();
+    rowStealth->resetClassSkill();
+    rowSurvival->resetClassSkill();
+    rowSwim->resetClassSkill();
+    rowUseMagicDevice->resetClassSkill();
+}
 
 void MainWindow::makeNewChar()
 {
+    setWindowTitle("Wheezy Character Creation");
+    setFixedWidth(700);
+
+    leftWidth = 250;
+
     // Name
-    charName = new QLineEdit;
-    charName->setText("Full Name");
+    charName = new QLineEdit("Full Name");
+    charName->setFixedWidth(leftWidth);
 
     // Core race selection
     coreRaces = new QComboBox;
+    coreRaces->setFixedWidth(leftWidth);
     coreRaces->addItem("Choose a Race");
     coreRaces->addItem("Dwarf");
     coreRaces->addItem("Elf");
@@ -224,7 +590,10 @@ void MainWindow::makeNewChar()
     connect(coreRaces,SIGNAL(activated(int)),this,SLOT(updateAbilities()));
 
     // Core class selection
+    // Changes to class skills, BAB, saves and special abilities.
     coreClasses = new QComboBox;
+    coreClasses->setFixedWidth(leftWidth);
+    coreClasses->addItem("Choose a Class");
     coreClasses->addItem("Barbarian");
     coreClasses->addItem("Bard");
     coreClasses->addItem("Cleric");
@@ -237,143 +606,100 @@ void MainWindow::makeNewChar()
     coreClasses->addItem("Sorcerer");
     coreClasses->addItem("Wizard");
 
+    connect(coreClasses,SIGNAL(activated(int)),this,SLOT(updateClassChoice()));
+
     // Alignment selection
-    alignment1 = new QComboBox;
-    alignment1->addItem("Lawful");
-    alignment1->addItem("Neutral");
-    alignment1->addItem("Chaotic");
+    layoutAlignment = new QHBoxLayout;
 
-    alignment2 = new QComboBox;
-    alignment2->addItem("Good");
-    alignment2->addItem("Neutral");
-    alignment2->addItem("Evil");
+    groupAlignmentLNC = new QGroupBox("Lawful/Chaotic");
+    groupAlignmentLNC->setFixedWidth(leftWidth/2 - 10);
+    groupAlignmentLNC->setFixedHeight(120);
 
-    QHBoxLayout *alignmentLayout = new QHBoxLayout;
-    alignmentLayout->addWidget(alignment1);
-    alignmentLayout->addWidget(alignment2);
+    groupAlignmentGNE = new QGroupBox("Good/Evil");
+    groupAlignmentGNE->setFixedWidth(leftWidth/2 - 10);
+    groupAlignmentGNE->setFixedHeight(120);
+
+    alignmentL = new QRadioButton("Lawful");
+    alignmentN1 = new QRadioButton("Neutral");
+    alignmentC = new QRadioButton("Chaotic");
+    alignmentG = new QRadioButton("Good");
+    alignmentN2 = new QRadioButton("Neutral");
+    alignmentE = new QRadioButton("Evil");
+
+    initiateAlignment();
+
+    connect(alignmentL,SIGNAL(toggled(bool)),this,SLOT(updateAlignment()));
+    connect(alignmentN1,SIGNAL(toggled(bool)),this,SLOT(updateAlignment()));
+    connect(alignmentC,SIGNAL(toggled(bool)),this,SLOT(updateAlignment()));
+    connect(alignmentG,SIGNAL(toggled(bool)),this,SLOT(updateAlignment()));
+    connect(alignmentN2,SIGNAL(toggled(bool)),this,SLOT(updateAlignment()));
+    connect(alignmentE,SIGNAL(toggled(bool)),this,SLOT(updateAlignment()));
 
     // Ability scores
-
-    createAbilities();
+    initiateAbilities();
 
     // Number of feats and name
-    QLabel *labelFeat = new QLabel;
-    labelFeat->setText("Feats");
-
-    QSpinBox *spinFeat = new QSpinBox;
-    spinFeat->setValue(0);
-    spinFeat->setReadOnly(true);
-    spinFeat->setButtonSymbols(QAbstractSpinBox::NoButtons);
+    QGroupBox *groupFeat = new QGroupBox("Feats");
+    groupFeat->setFixedWidth(leftWidth);
+    groupFeat->setAlignment(Qt::AlignHCenter);
 
     QLineEdit *textFeat = new QLineEdit;
     QLineEdit *textFeat2 = new QLineEdit;
     QLineEdit *textFeat3 = new QLineEdit;
 
-    QGridLayout *layoutFeat = new QGridLayout;
-    layoutFeat->addWidget(labelFeat,1,0);
-    layoutFeat->addWidget(spinFeat,1,1);
-    layoutFeat->addWidget(textFeat,0,2);
-    layoutFeat->addWidget(textFeat2,1,2);
-    layoutFeat->addWidget(textFeat3,2,2);
+    QVBoxLayout *layoutFeat = new QVBoxLayout;
+    layoutFeat->addWidget(textFeat);
+    layoutFeat->addWidget(textFeat2);
+    layoutFeat->addWidget(textFeat3);
+
+    groupFeat->setLayout(layoutFeat);
 
     // Hit Dice
-    QLabel *labelHit = new QLabel;
-    labelHit->setText("Hit Dice");
-
-    QSpinBox *spinHit = new QSpinBox;
-    spinHit->setValue(0);
-
-    QGridLayout *layoutHit = new QGridLayout;
-    layoutHit->addWidget(labelHit,0,0);
-    layoutHit->addWidget(spinHit,0,1);
+    initiateHitDie();
 
     // Starting Gold
-    QLabel *labelGold = new QLabel;
-    labelGold->setText("Starting gold");
-
-    QSpinBox *spinGold = new QSpinBox;
-    spinGold->setValue(0);
-
-    QGridLayout *layoutGold = new QGridLayout;
-    layoutGold->addWidget(labelGold,0,0);
-    layoutGold->addWidget(spinGold,0,1);
-
+    initiateGold();
 
     // Layout for left part of page
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->addWidget(charName);
     leftLayout->addWidget(coreRaces);
     leftLayout->addWidget(coreClasses);
-    leftLayout->addLayout(alignmentLayout);
-    leftLayout->addLayout(gridAbility);
-    leftLayout->addLayout(layoutFeat);
-    leftLayout->addLayout(layoutHit);
-    leftLayout->addLayout(layoutGold);
+    leftLayout->addLayout(layoutAlignment);
+    leftLayout->addWidget(groupAbility);
+    leftLayout->addWidget(groupFeat);
+    leftLayout->addWidget(groupHit);
+    leftLayout->addWidget(groupGold);
 
     // ///////////////////// Skill section
 
-    QLabel *labelSkill = new QLabel;
-    labelSkill->setText("Skill");
-    QLabel *labelSkillRank = new QLabel;
-    labelSkillRank->setText("Rank");
-    QLabel *labelSkillClass = new QLabel;
-    labelSkillClass->setText("Class");
-    QLabel *labelSkillAbility = new QLabel;
-    labelSkillAbility->setText("Ability");
-    QLabel *labelSkillOther = new QLabel;
-    labelSkillOther->setText("Other");
-    QLabel *labelSkillTotal = new QLabel;
-    labelSkillTotal->setText("Total");
+    QLabel *labelClassSkill = new QLabel("Class \nSkill");
+    labelClassSkill->setFixedWidth(35);
+    QLabel *labelSkill = new QLabel("Skill");
+    labelSkill->setFixedWidth(120);
+    QLabel *labelSkillRank = new QLabel("Rank");
+    labelSkillRank->setFixedWidth(45);
+    QLabel *labelSkillClass = new QLabel("Class");
+    labelSkillClass->setFixedWidth(35);
+    QLabel *labelSkillAbility = new QLabel("Ability");
+    labelSkillAbility->setFixedWidth(35);
+    QLabel *labelSkillTotal = new QLabel("Total");
+    labelSkillTotal->setFixedWidth(35);
 
-    gridSkill = new QGridLayout;
+    layoutLabelSkill = new QGridLayout;
+    layoutLabelSkill->addWidget(labelClassSkill,0,0);
+    layoutLabelSkill->addWidget(labelSkill,0,1);
+    layoutLabelSkill->addWidget(labelSkillRank,0,2);
+    layoutLabelSkill->addWidget(labelSkillClass,0,3);
+    layoutLabelSkill->addWidget(labelSkillAbility,0,4);
+    layoutLabelSkill->addWidget(labelSkillTotal,0,5);
 
-    createSkill("Acrobatics",1);
-    createSkill("Appraise",2);
-    createSkill("Bluff",3);
-    createSkill("Climb",4);
-    createSkill("Craft",5);
-    createSkill("Diplomacy",6);
-    createSkill("Disable Device",7);
-    createSkill("Disguise",8);
-    createSkill("Escape Artist",9);
-    createSkill("Fly",10);
-    createSkill("Handle Animal",11);
-    createSkill("Heal",12);
-    createSkill("Intimidate",13);
-    createSkill("KnArcana",14);
-    createSkill("KnDungeon",15);
-    createSkill("KnEngineering",16);
-    createSkill("KnGeography",17);
-    createSkill("KnHistory",18);
-    createSkill("KnLocal",19);
-    createSkill("KnNature",20);
-    createSkill("KnNobility",21);
-    createSkill("KnPlanes",22);
-    createSkill("KnReligion",23);
-    createSkill("Linguistics",24);
-    createSkill("Perception",25);
-    createSkill("Perform",26);
-    createSkill("Profession",27);
-    createSkill("Ride",28);
-    createSkill("Sense Motive",29);
-    createSkill("Sleight of Hand",30);
-    createSkill("Spellcraft",31);
-    createSkill("Stealth",32);
-    createSkill("Survival",33);
-    createSkill("Swim",34);
-    createSkill("Use Magic Device",35);
-
-    gridSkill->addWidget(labelSkill,0,0);
-    gridSkill->addWidget(labelSkillRank,0,1);
-    gridSkill->addWidget(labelSkillClass,0,2);
-    gridSkill->addWidget(labelSkillAbility,0,3);
-    gridSkill->addWidget(labelSkillOther,0,4);
-    gridSkill->addWidget(labelSkillTotal,0,5);
+    initiateSkill();
 
     // Layout for overall page
-    QGridLayout *layout = new QGridLayout;
-    layout->addLayout(leftLayout,0,0,11,1);
-    layout->addLayout(gridSkill,0,1,19,2);
+    QHBoxLayout *layout = new QHBoxLayout;
+    layout->addLayout(leftLayout);
+    layout->addWidget(scrollAreaSkill);
 
     centralZone->setLayout(layout);
 
@@ -541,4 +867,173 @@ void MainWindow::updateAbilities()
     spinBonusINT->setValue((spinValueINT->value()/2) - 5 + (spinValueINT->value()%2));
     spinBonusWIS->setValue((spinValueWIS->value()/2) - 5 + (spinValueWIS->value()%2));
     spinBonusCHA->setValue((spinValueCHA->value()/2) - 5 + (spinValueCHA->value()%2));
+}
+
+void MainWindow::updateClassChoice()
+{
+    if (coreClasses->currentIndex() == 1) // For Barbarian
+    {
+        alignmentN1->setChecked(true);
+    }
+    else if (coreClasses->currentIndex() == 6) // For Monk
+    {
+        alignmentL->setChecked(true);
+    }
+    else
+    {
+        alignmentN1->setChecked(true);
+        alignmentN2->setChecked(true);
+    }
+    updateAlignment();
+    updateHitDie();
+    updateGold();
+    updateSkill();
+}
+
+void MainWindow::updateSkill()
+{
+    resetClassSkill();
+
+    int currentClass(coreClasses->currentIndex());
+
+    rowAcrobatics->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                           spinBonusCON->value(), spinBonusINT->value(),
+                                           spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowAppraise->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                         spinBonusCON->value(), spinBonusINT->value(),
+                                         spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowBluff->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                      spinBonusCON->value(), spinBonusINT->value(),
+                                      spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowClimb->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                      spinBonusCON->value(), spinBonusINT->value(),
+                                      spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowCraft->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                      spinBonusCON->value(), spinBonusINT->value(),
+                                      spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowDiplomacy->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                          spinBonusCON->value(), spinBonusINT->value(),
+                                          spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowDisableDevice->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                              spinBonusCON->value(), spinBonusINT->value(),
+                                              spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowDisguise->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                         spinBonusCON->value(), spinBonusINT->value(),
+                                         spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowEscapeArtist->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                             spinBonusCON->value(), spinBonusINT->value(),
+                                             spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowFly->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                    spinBonusCON->value(), spinBonusINT->value(),
+                                    spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowHandleAnimal->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                             spinBonusCON->value(), spinBonusINT->value(),
+                                             spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowHeal->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                     spinBonusCON->value(), spinBonusINT->value(),
+                                     spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowIntimidate->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                           spinBonusCON->value(), spinBonusINT->value(),
+                                           spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowKnArcana->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                         spinBonusCON->value(), spinBonusINT->value(),
+                                         spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowKnDungeoneering->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                                spinBonusCON->value(), spinBonusINT->value(),
+                                                spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowKnEngineering->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                              spinBonusCON->value(), spinBonusINT->value(),
+                                              spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowKnGeography->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                            spinBonusCON->value(), spinBonusINT->value(),
+                                            spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowKnHistory->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                          spinBonusCON->value(), spinBonusINT->value(),
+                                          spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowKnLocal->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                        spinBonusCON->value(), spinBonusINT->value(),
+                                        spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowKnNature->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                         spinBonusCON->value(), spinBonusINT->value(),
+                                         spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowKnNobility->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                           spinBonusCON->value(), spinBonusINT->value(),
+                                           spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowKnPlanes->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                         spinBonusCON->value(), spinBonusINT->value(),
+                                         spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowKnReligion->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                           spinBonusCON->value(), spinBonusINT->value(),
+                                           spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowLinguistics->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                            spinBonusCON->value(), spinBonusINT->value(),
+                                            spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowPerception->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                           spinBonusCON->value(), spinBonusINT->value(),
+                                           spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowPerform->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                        spinBonusCON->value(), spinBonusINT->value(),
+                                        spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowProfession->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                           spinBonusCON->value(), spinBonusINT->value(),
+                                           spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowRide->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                     spinBonusCON->value(), spinBonusINT->value(),
+                                     spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowSenseMotive->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                            spinBonusCON->value(), spinBonusINT->value(),
+                                            spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowSleighOfHand->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                             spinBonusCON->value(), spinBonusINT->value(),
+                                             spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowSpellcraft->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                           spinBonusCON->value(), spinBonusINT->value(),
+                                           spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowStealth->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                        spinBonusCON->value(), spinBonusINT->value(),
+                                        spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowSurvival->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                         spinBonusCON->value(), spinBonusINT->value(),
+                                         spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowSwim->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                     spinBonusCON->value(), spinBonusINT->value(),
+                                     spinBonusWIS->value(), spinBonusCHA->value());
+
+    rowUseMagicDevice->updateRow(currentClass, spinBonusSTR->value(), spinBonusDEX->value(),
+                                               spinBonusCON->value(), spinBonusINT->value(),
+                                               spinBonusWIS->value(), spinBonusCHA->value());
+
 }

@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include "AbilitySpinBox.hpp"
 #include "GridHeader.hpp"
+#include "SkillRow.hpp"
 
 class MainWindow: public QMainWindow
 {
@@ -11,27 +12,49 @@ class MainWindow: public QMainWindow
 
 public:
     MainWindow();
-    void createAbilities();
-    void createSkill(QString name,int row);
-
+    void initiateAbilities();
+    void initiateAlignment();
+    void initiateHitDie();
+    void updateHitDie();
+    void initiateGold();
+    void updateGold();
+    void initiateSkill();
+    void resetClassSkill();
 
 public slots:
     void makeNewChar();
     void updateAbilities();
+    void updateClassChoice();
+    void updateAlignment();
+    void updateSkill();
 
 private:
     // Constructor
     QWidget *centralZone;
 
     // Character creation
+    int leftWidth;
     QComboBox *coreRaces;
     QComboBox *coreClasses;
     QLineEdit *charName;
-    QComboBox *alignment1;
-    QComboBox *alignment2;
+
     QStandardItemModel *modelAbility;
 
+    // Alignment
+    QHBoxLayout *layoutAlignment;
+    QGroupBox *groupAlignmentLNC;
+    QGroupBox *groupAlignmentGNE;
+    QVBoxLayout *layoutLNC;
+    QVBoxLayout *layoutGNE;
+    QRadioButton *alignmentL;
+    QRadioButton *alignmentN1;
+    QRadioButton *alignmentC;
+    QRadioButton *alignmentG;
+    QRadioButton *alignmentN2;
+    QRadioButton *alignmentE;
+
     // Ability section
+    QGroupBox *groupAbility;
     QGridLayout *gridAbility;
 
     QRadioButton *radioSTR;
@@ -69,9 +92,57 @@ private:
     AbilitySpinBox *spinBonusWIS;
     AbilitySpinBox *spinBonusCHA;
 
+    // Hit Die
+    QGroupBox *groupHit;
+    QHBoxLayout *layoutHit;
+    QLabel *labelHitDie;
+    QSpinBox *spinHit;
+
+    // Gold
+    QGroupBox *groupGold;
+    QHBoxLayout *layoutGold;
+    QLabel *labelGoldDie;
+    QSpinBox *spinGold;
+
     // Skill section
-    QCheckBox *boxAcrobatics;
-    QGridLayout *gridSkill;
+    QVBoxLayout *layoutSkillRow;
+    QGridLayout *layoutLabelSkill;
+    QScrollArea *scrollAreaSkill;
+    SkillRow *rowAcrobatics;
+    SkillRow *rowAppraise;
+    SkillRow *rowBluff;
+    SkillRow *rowClimb;
+    SkillRow *rowCraft;
+    SkillRow *rowDiplomacy;
+    SkillRow *rowDisableDevice;
+    SkillRow *rowDisguise;
+    SkillRow *rowEscapeArtist;
+    SkillRow *rowFly;
+    SkillRow *rowHandleAnimal;
+    SkillRow *rowHeal;
+    SkillRow *rowIntimidate;
+    SkillRow *rowKnArcana;
+    SkillRow *rowKnDungeoneering;
+    SkillRow *rowKnEngineering;
+    SkillRow *rowKnGeography;
+    SkillRow *rowKnHistory;
+    SkillRow *rowKnLocal;
+    SkillRow *rowKnNature;
+    SkillRow *rowKnNobility;
+    SkillRow *rowKnPlanes;
+    SkillRow *rowKnReligion;
+    SkillRow *rowLinguistics;
+    SkillRow *rowPerception;
+    SkillRow *rowPerform;
+    SkillRow *rowProfession;
+    SkillRow *rowRide;
+    SkillRow *rowSenseMotive;
+    SkillRow *rowSleighOfHand;
+    SkillRow *rowSpellcraft;
+    SkillRow *rowStealth;
+    SkillRow *rowSurvival;
+    SkillRow *rowSwim;
+    SkillRow *rowUseMagicDevice;
 
 };
 

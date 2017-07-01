@@ -4,9 +4,11 @@ SOURCES += \
     main.cpp \
     MainWindow.cpp \
     AbilitySpinBox.cpp \
-    GridHeader.cpp
+    GridHeader.cpp \
+    SkillRow.cpp
 
 HEADERS += \
     MainWindow.hpp \
     AbilitySpinBox.hpp \
-    GridHeader.hpp
+    GridHeader.hpp \
+    SkillRow.hpp

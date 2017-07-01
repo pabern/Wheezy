@@ -6,5 +6,6 @@ AbilitySpinBox::AbilitySpinBox()
     setReadOnly(true);
     setButtonSymbols(QAbstractSpinBox::NoButtons);
     setAlignment(Qt::AlignHCenter);
+    setFixedWidth(35);
     setMinimum(-10);
 }
