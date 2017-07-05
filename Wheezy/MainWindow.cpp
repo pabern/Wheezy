@@ -10,10 +10,11 @@ MainWindow::MainWindow()
 
     // Menus
     // Character creation menu
-    QMenu *menuCharCreation = menuBar()->addMenu("Creation");
+    QMenu *menuCharCharacter = menuBar()->addMenu("Character");
 
-    QAction *actionNewChar = new QAction("New character",this);
-    menuCharCreation->addAction(actionNewChar);
+    QAction *actionNewChar = new QAction("New",this);
+    menuCharCharacter->addAction(actionNewChar);
+
     connect(actionNewChar,SIGNAL(triggered(bool)),this,SLOT(makeNewChar()));
 
     // Obligatory first line
@@ -251,7 +252,23 @@ void MainWindow::updateAlignment()
 
 void MainWindow::initiateAlignment()
 {
-    // Initial Alignment
+    layoutAlignment = new QHBoxLayout;
+
+    groupAlignmentLNC = new QGroupBox("Lawful/Chaotic");
+    groupAlignmentLNC->setFixedWidth(leftWidth/2 - 10);
+    groupAlignmentLNC->setFixedHeight(120);
+
+    groupAlignmentGNE = new QGroupBox("Good/Evil");
+    groupAlignmentGNE->setFixedWidth(leftWidth/2 - 10);
+    groupAlignmentGNE->setFixedHeight(120);
+
+    alignmentL = new QRadioButton("Lawful");
+    alignmentN1 = new QRadioButton("Neutral");
+    alignmentC = new QRadioButton("Chaotic");
+    alignmentG = new QRadioButton("Good");
+    alignmentN2 = new QRadioButton("Neutral");
+    alignmentE = new QRadioButton("Evil");
+
     layoutLNC = new QVBoxLayout;
     layoutLNC->addWidget(alignmentL);
     layoutLNC->addWidget(alignmentN1);
@@ -564,6 +581,62 @@ void MainWindow::resetClassSkill()
     rowUseMagicDevice->resetClassSkill();
 }
 
+void MainWindow::initiateRaces()
+{
+    // TO DO : Relative path.
+    ifstream fluxRaces;
+    fluxRaces.open("/home/pat/CodingProjects/Wheezy/Wheezy/Wheezy/races");
+
+    if (fluxRaces)
+    {
+        coreRaces = new QComboBox;
+        coreRaces->setFixedWidth(leftWidth);
+        coreRaces->addItem("Choose a Race");
+
+        string race;
+        while(fluxRaces.peek() != EOF)
+        {
+            getline(fluxRaces,race);
+            QString raceQ = QString::fromStdString(race);
+            coreRaces->addItem(raceQ);
+        }
+        fluxRaces.close();
+    }
+    else
+    {
+        qDebug() << "Problème de lecture";
+        fluxRaces.close();
+    }
+}
+
+void MainWindow::initiateClasses()
+{
+    // TO DO : Relative path.
+    ifstream fluxClasses;
+    fluxClasses.open("/home/pat/CodingProjects/Wheezy/Wheezy/Wheezy/classes");
+
+    if (fluxClasses)
+    {
+        coreClasses = new QComboBox;
+        coreClasses->setFixedWidth(leftWidth);
+        coreClasses->addItem("Choose a Class");
+
+        string classes;
+        while(fluxClasses.peek() != EOF)
+        {
+            getline(fluxClasses,classes);
+            QString classesQ = QString::fromStdString(classes);
+            coreClasses->addItem(classesQ);
+        }
+        fluxClasses.close();
+    }
+    else
+    {
+        qDebug() << "Problème de lecture";
+        fluxClasses.close();
+    }
+}
+
 void MainWindow::makeNewChar()
 {
     setWindowTitle("Wheezy Character Creation");
@@ -571,63 +644,25 @@ void MainWindow::makeNewChar()
 
     leftWidth = 250;
 
-    // Name
+    //***** Name *****
     charName = new QLineEdit("Full Name");
     charName->setFixedWidth(leftWidth);
 
-    // Core race selection
-    coreRaces = new QComboBox;
-    coreRaces->setFixedWidth(leftWidth);
-    coreRaces->addItem("Choose a Race");
-    coreRaces->addItem("Dwarf");
-    coreRaces->addItem("Elf");
-    coreRaces->addItem("Gnome");
-    coreRaces->addItem("Half Elf");
-    coreRaces->addItem("Halfling");
-    coreRaces->addItem("Half Orc");
-    coreRaces->addItem("Human");
-
+    //***** Races *****
+    initiateRaces();
+    // Update abilities depending on race selection
+    // TO DO : Other things might be affected by race
     connect(coreRaces,SIGNAL(activated(int)),this,SLOT(updateAbilities()));
 
-    // Core class selection
-    // Changes to class skills, BAB, saves and special abilities.
-    coreClasses = new QComboBox;
-    coreClasses->setFixedWidth(leftWidth);
-    coreClasses->addItem("Choose a Class");
-    coreClasses->addItem("Barbarian");
-    coreClasses->addItem("Bard");
-    coreClasses->addItem("Cleric");
-    coreClasses->addItem("Druid");
-    coreClasses->addItem("Fighter");
-    coreClasses->addItem("Monk");
-    coreClasses->addItem("Paladin");
-    coreClasses->addItem("Ranger");
-    coreClasses->addItem("Rogue");
-    coreClasses->addItem("Sorcerer");
-    coreClasses->addItem("Wizard");
-
+    //***** Classes *****
+    initiateClasses();
+    // Update all the things affected by class change
+    // TO DO : Changes to class skills, BAB, saves and special abilities
     connect(coreClasses,SIGNAL(activated(int)),this,SLOT(updateClassChoice()));
 
-    // Alignment selection
-    layoutAlignment = new QHBoxLayout;
-
-    groupAlignmentLNC = new QGroupBox("Lawful/Chaotic");
-    groupAlignmentLNC->setFixedWidth(leftWidth/2 - 10);
-    groupAlignmentLNC->setFixedHeight(120);
-
-    groupAlignmentGNE = new QGroupBox("Good/Evil");
-    groupAlignmentGNE->setFixedWidth(leftWidth/2 - 10);
-    groupAlignmentGNE->setFixedHeight(120);
-
-    alignmentL = new QRadioButton("Lawful");
-    alignmentN1 = new QRadioButton("Neutral");
-    alignmentC = new QRadioButton("Chaotic");
-    alignmentG = new QRadioButton("Good");
-    alignmentN2 = new QRadioButton("Neutral");
-    alignmentE = new QRadioButton("Evil");
-
+    //***** Alignment *****
     initiateAlignment();
-
+    // Each time a radio is pressed, they need to be updated
     connect(alignmentL,SIGNAL(toggled(bool)),this,SLOT(updateAlignment()));
     connect(alignmentN1,SIGNAL(toggled(bool)),this,SLOT(updateAlignment()));
     connect(alignmentC,SIGNAL(toggled(bool)),this,SLOT(updateAlignment()));
@@ -635,7 +670,7 @@ void MainWindow::makeNewChar()
     connect(alignmentN2,SIGNAL(toggled(bool)),this,SLOT(updateAlignment()));
     connect(alignmentE,SIGNAL(toggled(bool)),this,SLOT(updateAlignment()));
 
-    // Ability scores
+    //***** Ability scores *****
     initiateAbilities();
 
     // Number of feats and name

@@ -2,9 +2,13 @@
 #define MAINWINDOW_HPP
 
 #include <QtWidgets>
+#include <fstream>
+#include <string>
 #include "AbilitySpinBox.hpp"
 #include "GridHeader.hpp"
 #include "SkillRow.hpp"
+
+using namespace std;
 
 class MainWindow: public QMainWindow
 {
@@ -20,6 +24,8 @@ public:
     void updateGold();
     void initiateSkill();
     void resetClassSkill();
+    void initiateRaces();
+    void initiateClasses();
 
 public slots:
     void makeNewChar();
