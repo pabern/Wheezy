@@ -2948,8 +2948,7 @@ MainWindow.o: ../Wheezy/MainWindow.cpp ../Wheezy/MainWindow.hpp \
 		../Wheezy/GridHeader.hpp \
 		../Wheezy/SkillRow.hpp \
 		../Wheezy/AbilityRow.hpp \
-		../Wheezy/AbilitySpinBox.hpp \
-		../../../../Qt/5.8/gcc_64/include/QtCore/QDebug
+		../Wheezy/AbilitySpinBox.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MainWindow.o ../Wheezy/MainWindow.cpp
 
 AbilitySpinBox.o: ../Wheezy/AbilitySpinBox.cpp ../Wheezy/AbilitySpinBox.hpp \

@@ -2,8 +2,6 @@
 
 using namespace std;
 
-#include <QDebug>
-
 MainWindow::MainWindow()
 {
     // Attributes of main window
@@ -12,10 +10,10 @@ MainWindow::MainWindow()
 
     // Menus
     // Character creation menu
-    QMenu *menuCharCharacter = menuBar()->addMenu("Character");
+    menuChar = menuBar()->addMenu("Character");
 
     QAction *actionNewChar = new QAction("New",this);
-    menuCharCharacter->addAction(actionNewChar);
+    menuChar->addAction(actionNewChar);
 
     connect(actionNewChar,SIGNAL(triggered(bool)),this,SLOT(makeNewChar()));
 
@@ -30,8 +28,24 @@ MainWindow::MainWindow()
 
 void MainWindow::initiateRaces()
 {
+    /*QFile fileRaces("://races");
+    if (!fileRaces.open(QIODevice::ReadOnly))
+    {
+        qFatal("Failed to open file");
+    }
+
+    QTextStream streamRaces(&fileRaces);
+    QString race;
+    while (!streamRaces.atEnd())
+    {
+        streamRaces >> race;
+        coreRaces->addItem(race);
+        // Skip rest of line
+        streamRaces.readLine();
+    }*/
+
     // Read the different races from races file
-    // TO DO : Relative path.
+    // TO DO : Relative path. Try to use resource file... Can't make it work.
     ifstream fluxRaces;
     fluxRaces.open("/home/pat/CodingProjects/Wheezy/Wheezy/Wheezy/races");
 
@@ -39,8 +53,6 @@ void MainWindow::initiateRaces()
     {
         coreRaces = new QComboBox;
         coreRaces->setFixedWidth(leftWidth);
-        // 0th item
-        coreRaces->addItem("Choose a Race");
 
         // Read all lines until End Of File and adding a new item for each.
         string race;
@@ -80,8 +92,6 @@ void MainWindow::initiateClasses()
     {
         coreClasses = new QComboBox;
         coreClasses->setFixedWidth(leftWidth);
-        // 0th item
-        coreClasses->addItem("Choose a Class");
 
         // Read all lines until End Of File and adding a new item for each.
         string classes;
@@ -150,10 +160,6 @@ void MainWindow::initiateAlignment()
     layoutAlignment->addWidget(groupAlignmentLNC);
     layoutAlignment->addWidget(groupAlignmentGNE);
 
-    // Initial choice
-    alignmentN1->setChecked(true);
-    alignmentN2->setChecked(true);
-
     // Each time a radio is pressed, they need to be updated
     connect(alignmentL,SIGNAL(toggled(bool)),this,SLOT(updateAlignment()));
     connect(alignmentN1,SIGNAL(toggled(bool)),this,SLOT(updateAlignment()));
@@ -193,23 +199,21 @@ void MainWindow::initiateAbilities()
     abilityWIS = new AbilityRow("WIS");
     abilityCHA = new AbilityRow("CHA");
 
-    abilitySTR->radio->setChecked(true);
-
     // TO DO : Find a way to keep the radios private, yet connect them to updateAbilities.
     // Maybe move update abilities in the row...
-    connect(abilitySTR->radio,SIGNAL(toggled(bool)),this,SLOT(updateAbilities()));
-    connect(abilityDEX->radio,SIGNAL(toggled(bool)),this,SLOT(updateAbilities()));
-    connect(abilityCON->radio,SIGNAL(toggled(bool)),this,SLOT(updateAbilities()));
-    connect(abilityINT->radio,SIGNAL(toggled(bool)),this,SLOT(updateAbilities()));
-    connect(abilityWIS->radio,SIGNAL(toggled(bool)),this,SLOT(updateAbilities()));
-    connect(abilityCHA->radio,SIGNAL(toggled(bool)),this,SLOT(updateAbilities()));
+    connect(abilitySTR->radio,SIGNAL(toggled(bool)),this,SLOT(updateRaceChoice()));
+    connect(abilityDEX->radio,SIGNAL(toggled(bool)),this,SLOT(updateRaceChoice()));
+    connect(abilityCON->radio,SIGNAL(toggled(bool)),this,SLOT(updateRaceChoice()));
+    connect(abilityINT->radio,SIGNAL(toggled(bool)),this,SLOT(updateRaceChoice()));
+    connect(abilityWIS->radio,SIGNAL(toggled(bool)),this,SLOT(updateRaceChoice()));
+    connect(abilityCHA->radio,SIGNAL(toggled(bool)),this,SLOT(updateRaceChoice()));
 
-    connect(abilitySTR->spinRoll,SIGNAL(valueChanged(int)),this,SLOT(updateAbilities()));
-    connect(abilityDEX->spinRoll,SIGNAL(valueChanged(int)),this,SLOT(updateAbilities()));
-    connect(abilityCON->spinRoll,SIGNAL(valueChanged(int)),this,SLOT(updateAbilities()));
-    connect(abilityINT->spinRoll,SIGNAL(valueChanged(int)),this,SLOT(updateAbilities()));
-    connect(abilityWIS->spinRoll,SIGNAL(valueChanged(int)),this,SLOT(updateAbilities()));
-    connect(abilityCHA->spinRoll,SIGNAL(valueChanged(int)),this,SLOT(updateAbilities()));
+    connect(abilitySTR->spinRoll,SIGNAL(valueChanged(int)),this,SLOT(updateRaceChoice()));
+    connect(abilityDEX->spinRoll,SIGNAL(valueChanged(int)),this,SLOT(updateRaceChoice()));
+    connect(abilityCON->spinRoll,SIGNAL(valueChanged(int)),this,SLOT(updateRaceChoice()));
+    connect(abilityINT->spinRoll,SIGNAL(valueChanged(int)),this,SLOT(updateRaceChoice()));
+    connect(abilityWIS->spinRoll,SIGNAL(valueChanged(int)),this,SLOT(updateRaceChoice()));
+    connect(abilityCHA->spinRoll,SIGNAL(valueChanged(int)),this,SLOT(updateRaceChoice()));
 
     // Then added to the layout
     layoutAbility = new QVBoxLayout;
@@ -319,45 +323,43 @@ void MainWindow::initiateSkill()
     layoutLabelSkill->addWidget(labelSkillTotal);
 
     // Initialization of all skills
-    int i(1);
-    rowAcrobatics = new SkillRow("Acrobatics",i++);
-    rowAppraise = new SkillRow("Appraise",i++);
-    rowBluff = new SkillRow("Bluff",i++);
-    rowClimb = new SkillRow("Climb",i++);
-    rowCraft = new SkillRow("Craft",i++);
-    rowDiplomacy = new SkillRow("Diplomacy",i++);
-    rowDisableDevice = new SkillRow("Disable Device",i++);
-    rowDisguise = new SkillRow("Disguise",i++);
-    rowEscapeArtist = new SkillRow("Escape Artist",i++);
-    rowFly = new SkillRow("Fly",i++);
-    rowHandleAnimal = new SkillRow("Handle Animal",i++);
-    rowHeal = new SkillRow("Heal",i++);
-    rowIntimidate = new SkillRow("Intimidate",i++);
-    rowKnArcana = new SkillRow("Kn. Arcana",i++);
-    rowKnDungeoneering = new SkillRow("Kn. Dungeoneering",i++);
-    rowKnEngineering = new SkillRow("Kn. Engineering",i++);
-    rowKnGeography = new SkillRow("Kn. Geography",i++);
-    rowKnHistory = new SkillRow("Kn. Hystory",i++);
-    rowKnLocal = new SkillRow("Kn. Local",i++);
-    rowKnNature = new SkillRow("Kn. Nature",i++);
-    rowKnNobility = new SkillRow("Kn. Nobility",i++);
-    rowKnPlanes = new SkillRow("Kn. Planes",i++);
-    rowKnReligion = new SkillRow("Kn. Religion",i++);
-    rowLinguistics = new SkillRow("Linguistics",i++);
-    rowPerception = new SkillRow("Perception",i++);
-    rowPerform = new SkillRow("Perform",i++);
-    rowProfession = new SkillRow("Profession",i++);
-    rowRide = new SkillRow("Ride",i++);
-    rowSenseMotive = new SkillRow("Sense Motive",i++);
-    rowSleighOfHand = new SkillRow("Sleight of Hand",i++);
-    rowSpellcraft = new SkillRow("Spellcraft",i++);
-    rowStealth = new SkillRow("Stealth",i++);
-    rowSurvival = new SkillRow("Survival",i++);
-    rowSwim = new SkillRow("Swim",i++);
-    rowUseMagicDevice = new SkillRow("Use Magic Device",i++);
-
-    // Skills are updated so intial totals are OK
-    updateSkill();
+    // TO DO : Maybe put the names in a file and have a for to reduce the lines.
+    int i(0);
+    tableSkills[i++] = new SkillRow("Acrobatics");
+    tableSkills[i++] = new SkillRow("Appraise");
+    tableSkills[i++] = new SkillRow("Bluff");
+    tableSkills[i++] = new SkillRow("Climb");
+    tableSkills[i++] = new SkillRow("Craft");
+    tableSkills[i++] = new SkillRow("Diplomacy");
+    tableSkills[i++] = new SkillRow("Disable Device");
+    tableSkills[i++] = new SkillRow("Disguise");
+    tableSkills[i++] = new SkillRow("Escape Artist");
+    tableSkills[i++] = new SkillRow("Fly");
+    tableSkills[i++] = new SkillRow("Handle Animal");
+    tableSkills[i++] = new SkillRow("Heal");
+    tableSkills[i++] = new SkillRow("Intimidate");
+    tableSkills[i++] = new SkillRow("Kn. Arcana");
+    tableSkills[i++] = new SkillRow("Kn. Dungeoneering");
+    tableSkills[i++] = new SkillRow("Kn. Engineering");
+    tableSkills[i++] = new SkillRow("Kn. Geography");
+    tableSkills[i++] = new SkillRow("Kn. Hystory");
+    tableSkills[i++] = new SkillRow("Kn. Local");
+    tableSkills[i++] = new SkillRow("Kn. Nature");
+    tableSkills[i++] = new SkillRow("Kn. Nobility");
+    tableSkills[i++] = new SkillRow("Kn. Planes");
+    tableSkills[i++] = new SkillRow("Kn. Religion");
+    tableSkills[i++] = new SkillRow("Linguistics");
+    tableSkills[i++] = new SkillRow("Perception");
+    tableSkills[i++] = new SkillRow("Perform");
+    tableSkills[i++] = new SkillRow("Profession");
+    tableSkills[i++] = new SkillRow("Ride");
+    tableSkills[i++] = new SkillRow("Sense Motive");
+    tableSkills[i++] = new SkillRow("Sleight of Hand");
+    tableSkills[i++] = new SkillRow("Spellcraft");
+    tableSkills[i++] = new SkillRow("Stealth");
+    tableSkills[i++] = new SkillRow("Survival");
+    tableSkills[i++] = new SkillRow("Swim");
+    tableSkills[i++] = new SkillRow("Use Magic Device");
 
     // Creation of layout and scroll area to navguate all skills
     layoutSkillRow = new QVBoxLayout;
@@ -372,41 +374,11 @@ void MainWindow::initiateSkill()
     scrollAreaSkill->setWidget(scrollAreaContent);
 
     layoutSkillRow->addLayout(layoutLabelSkill);
-    layoutSkillRow->addLayout(rowAcrobatics);
-    layoutSkillRow->addLayout(rowAppraise);
-    layoutSkillRow->addLayout(rowBluff);
-    layoutSkillRow->addLayout(rowClimb);
-    layoutSkillRow->addLayout(rowCraft);
-    layoutSkillRow->addLayout(rowDiplomacy);
-    layoutSkillRow->addLayout(rowDisableDevice);
-    layoutSkillRow->addLayout(rowDisguise);
-    layoutSkillRow->addLayout(rowEscapeArtist);
-    layoutSkillRow->addLayout(rowFly);
-    layoutSkillRow->addLayout(rowHandleAnimal);
-    layoutSkillRow->addLayout(rowHeal);
-    layoutSkillRow->addLayout(rowIntimidate);
-    layoutSkillRow->addLayout(rowKnArcana);
-    layoutSkillRow->addLayout(rowKnDungeoneering);
-    layoutSkillRow->addLayout(rowKnEngineering);
-    layoutSkillRow->addLayout(rowKnGeography);
-    layoutSkillRow->addLayout(rowKnHistory);
-    layoutSkillRow->addLayout(rowKnLocal);
-    layoutSkillRow->addLayout(rowKnNature);
-    layoutSkillRow->addLayout(rowKnNobility);
-    layoutSkillRow->addLayout(rowKnPlanes);
-    layoutSkillRow->addLayout(rowKnReligion);
-    layoutSkillRow->addLayout(rowLinguistics);
-    layoutSkillRow->addLayout(rowPerception);
-    layoutSkillRow->addLayout(rowPerform);
-    layoutSkillRow->addLayout(rowProfession);
-    layoutSkillRow->addLayout(rowRide);
-    layoutSkillRow->addLayout(rowSenseMotive);
-    layoutSkillRow->addLayout(rowSleighOfHand);
-    layoutSkillRow->addLayout(rowSpellcraft);
-    layoutSkillRow->addLayout(rowStealth);
-    layoutSkillRow->addLayout(rowSurvival);
-    layoutSkillRow->addLayout(rowSwim);
-    layoutSkillRow->addLayout(rowUseMagicDevice);
+    for (int j = 0; j <= 34; j++)
+    {
+        layoutSkillRow->addLayout(tableSkills[j]);
+        connect(tableSkills[j]->spinRank,SIGNAL(valueChanged(int)),this,SLOT(updateRanksLeft()));
+    }
 }
 
 void MainWindow::setRaceValues(int STR, int DEX, int CON, int INT, int WIS, int CHA)
@@ -425,12 +397,26 @@ void MainWindow::makeNewChar()
 {
     setWindowTitle("Wheezy Character Creation");
     setFixedWidth(700);
+    QAction *actionSaveChar = new QAction("Save",this);
+    menuChar->addAction(actionSaveChar);
+    connect(actionSaveChar,SIGNAL(triggered(bool)),this,SLOT(saveChar()));
 
     leftWidth = 250;
 
     //***** Name *****
     charName = new QLineEdit("Full Name");
-    charName->setFixedWidth(leftWidth);
+    charName->setFixedWidth(leftWidth - 45);
+
+    ranksLeft = new QSpinBox;
+    ranksLeft->setFixedWidth(35);
+    ranksLeft->setAlignment(Qt::AlignHCenter);
+    ranksLeft->setButtonSymbols(QAbstractSpinBox::NoButtons);
+    ranksLeft->setMinimum(-35);
+
+    layoutName = new QHBoxLayout;
+    layoutName->addWidget(charName);
+    layoutName->addWidget(ranksLeft);
+
 
     //***** Races *****
     initiateRaces();
@@ -456,9 +442,13 @@ void MainWindow::makeNewChar()
     //***** Skills *****
     initiateSkill();
 
+    //***** End of initialization phase *****
+    // All layout are updated to null
+    updateClassChoice();
+
     //***** Layout *****
     QVBoxLayout *leftLayout = new QVBoxLayout;
-    leftLayout->addWidget(charName);
+    leftLayout->addLayout(layoutName);
     leftLayout->addWidget(coreRaces);
     leftLayout->addWidget(coreClasses);
     leftLayout->addLayout(layoutAlignment);
@@ -497,7 +487,7 @@ void MainWindow::updateAbilities()
     if (fluxRaces)
     {
         fluxRaces.seekg(ios::beg);
-        for (int i = 0; i < raceIndex - 1; ++i)
+        for (int i = 0; i < raceIndex; ++i)
         {
             fluxRaces.ignore(numeric_limits<streamsize>::max(),'\n');
         }
@@ -572,7 +562,7 @@ void MainWindow::updateClassChoice()
     if (fluxClasses)
     {
         fluxClasses.seekg(ios::beg);
-        for (int i = 0; i < classIndex - 1; ++i)
+        for (int i = 0; i < classIndex; ++i)
         {
             fluxClasses.ignore(numeric_limits<streamsize>::max(),'\n');
         }
@@ -587,8 +577,6 @@ void MainWindow::updateClassChoice()
 
     switch (checkedAlignment) {
     case 0: // Base
-        alignmentN1->setChecked(true);
-        alignmentN2->setChecked(true);
         break;
     case 1: // Monk - Only lawful
         alignmentL->setChecked(true);
@@ -598,6 +586,9 @@ void MainWindow::updateClassChoice()
         alignmentL->setChecked(true);
         alignmentG->setChecked(true);
         break;
+    case 3: // Barbarian - Cannot be lawful
+        alignmentN1->setChecked(true);
+        break;
     default:
         break;
     }
@@ -606,7 +597,7 @@ void MainWindow::updateClassChoice()
     updateHitDie(fluxClasses);
     updateGold(fluxClasses);
     updateFeats(fluxClasses);
-    updateSkill();
+    updateSkill(fluxClasses);
 }
 
 void MainWindow::updateAlignment()
@@ -713,7 +704,6 @@ void MainWindow::updateGold(ifstream &file)
 
 void MainWindow::updateFeats(ifstream &file)
 {
-    int numberFeats;
     file >> numberFeats;
 
     int raceIndex = coreRaces->currentIndex();
@@ -729,7 +719,7 @@ void MainWindow::updateFeats(ifstream &file)
     if (fluxRaces)
     {
         fluxRaces.seekg(ios::beg);
-        for (int i = 0; i < raceIndex - 1; ++i)
+        for (int i = 0; i < raceIndex; ++i)
         {
             fluxRaces.ignore(numeric_limits<streamsize>::max(),'\n');
         }
@@ -755,6 +745,11 @@ void MainWindow::updateFeats(ifstream &file)
     numberFeats += additionalFeat;
 
     switch (numberFeats) {
+    case 0:
+        lineFeat1->setEnabled(false);
+        lineFeat2->setEnabled(false);
+        lineFeat3->setEnabled(false);
+        break;
     case 1:
         lineFeat1->setEnabled(true);
         lineFeat2->setEnabled(false);
@@ -775,189 +770,183 @@ void MainWindow::updateFeats(ifstream &file)
     }
 }
 
-void MainWindow::updateSkill()
+void MainWindow::updateSkill(ifstream &file)
 {
     resetClassSkill();
+    resetRanks();
 
-    int currentClass(coreClasses->currentIndex());
+    int abilityBonus[6];
+    abilityBonus[0] = abilitySTR->getBonus();
+    abilityBonus[1] = abilityDEX->getBonus();
+    abilityBonus[2] = abilityCON->getBonus();
+    abilityBonus[3] = abilityINT->getBonus();
+    abilityBonus[4] = abilityWIS->getBonus();
+    abilityBonus[5] = abilityCHA->getBonus();
 
-    rowAcrobatics->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                           abilityCON->getBonus(), abilityINT->getBonus(),
-                                           abilityWIS->getBonus(), abilityCHA->getBonus());
+    bool classSkill;
 
-    rowAppraise->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                         abilityCON->getBonus(), abilityINT->getBonus(),
-                                         abilityWIS->getBonus(), abilityCHA->getBonus());
+    for (int j = 0; j <= 34; j++)
+    {
+        file >> classSkill;
+        tableSkills[j]->updateRow(classSkill, abilityBonus,j);
+    }
 
-    rowBluff->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                      abilityCON->getBonus(), abilityINT->getBonus(),
-                                      abilityWIS->getBonus(), abilityCHA->getBonus());
+    file >> ranksLeftValue;
+    int raceIndex = coreRaces->currentIndex();
 
-    rowClimb->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                      abilityCON->getBonus(), abilityINT->getBonus(),
-                                      abilityWIS->getBonus(), abilityCHA->getBonus());
+    // We read the races file until we get to the line that matches the selected
+    // index then read the values
+    ifstream fluxRaces;
+    fluxRaces.open("/home/pat/CodingProjects/Wheezy/Wheezy/Wheezy/races");
 
-    rowCraft->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                      abilityCON->getBonus(), abilityINT->getBonus(),
-                                      abilityWIS->getBonus(), abilityCHA->getBonus());
+    string races;
+    int temp;
+    int additionalRank;
+    if (fluxRaces)
+    {
+        fluxRaces.seekg(ios::beg);
+        for (int i = 0; i < raceIndex; ++i)
+        {
+            fluxRaces.ignore(numeric_limits<streamsize>::max(),'\n');
+        }
+        fluxRaces >> races;
+        // Store the values
+        fluxRaces >> temp;
+        fluxRaces >> temp;
+        fluxRaces >> temp;
+        fluxRaces >> temp;
+        fluxRaces >> temp;
+        fluxRaces >> temp;
+        fluxRaces >> temp;
 
-    rowDiplomacy->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                          abilityCON->getBonus(), abilityINT->getBonus(),
-                                          abilityWIS->getBonus(), abilityCHA->getBonus());
+        fluxRaces >> additionalRank;
 
-    rowDisableDevice->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                              abilityCON->getBonus(), abilityINT->getBonus(),
-                                              abilityWIS->getBonus(), abilityCHA->getBonus());
+        fluxRaces.close();
+    }
+    else
+    {
+        qDebug() << "Problème de lecture";
+        fluxRaces.close();
+    }
 
-    rowDisguise->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                         abilityCON->getBonus(), abilityINT->getBonus(),
-                                         abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowEscapeArtist->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                             abilityCON->getBonus(), abilityINT->getBonus(),
-                                             abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowFly->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                    abilityCON->getBonus(), abilityINT->getBonus(),
-                                    abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowHandleAnimal->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                             abilityCON->getBonus(), abilityINT->getBonus(),
-                                             abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowHeal->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                     abilityCON->getBonus(), abilityINT->getBonus(),
-                                     abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowIntimidate->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                           abilityCON->getBonus(), abilityINT->getBonus(),
-                                           abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowKnArcana->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                         abilityCON->getBonus(), abilityINT->getBonus(),
-                                         abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowKnDungeoneering->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                                abilityCON->getBonus(), abilityINT->getBonus(),
-                                                abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowKnEngineering->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                              abilityCON->getBonus(), abilityINT->getBonus(),
-                                              abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowKnGeography->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                            abilityCON->getBonus(), abilityINT->getBonus(),
-                                            abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowKnHistory->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                          abilityCON->getBonus(), abilityINT->getBonus(),
-                                          abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowKnLocal->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                        abilityCON->getBonus(), abilityINT->getBonus(),
-                                        abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowKnNature->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                         abilityCON->getBonus(), abilityINT->getBonus(),
-                                         abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowKnNobility->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                           abilityCON->getBonus(), abilityINT->getBonus(),
-                                           abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowKnPlanes->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                         abilityCON->getBonus(), abilityINT->getBonus(),
-                                         abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowKnReligion->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                           abilityCON->getBonus(), abilityINT->getBonus(),
-                                           abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowLinguistics->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                            abilityCON->getBonus(), abilityINT->getBonus(),
-                                            abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowPerception->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                           abilityCON->getBonus(), abilityINT->getBonus(),
-                                           abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowPerform->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                        abilityCON->getBonus(), abilityINT->getBonus(),
-                                        abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowProfession->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                           abilityCON->getBonus(), abilityINT->getBonus(),
-                                           abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowRide->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                     abilityCON->getBonus(), abilityINT->getBonus(),
-                                     abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowSenseMotive->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                            abilityCON->getBonus(), abilityINT->getBonus(),
-                                            abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowSleighOfHand->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                             abilityCON->getBonus(), abilityINT->getBonus(),
-                                             abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowSpellcraft->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                           abilityCON->getBonus(), abilityINT->getBonus(),
-                                           abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowStealth->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                        abilityCON->getBonus(), abilityINT->getBonus(),
-                                        abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowSurvival->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                         abilityCON->getBonus(), abilityINT->getBonus(),
-                                         abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowSwim->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                     abilityCON->getBonus(), abilityINT->getBonus(),
-                                     abilityWIS->getBonus(), abilityCHA->getBonus());
-
-    rowUseMagicDevice->updateRow(currentClass, abilitySTR->getBonus(), abilityDEX->getBonus(),
-                                               abilityCON->getBonus(), abilityINT->getBonus(),
-                                               abilityWIS->getBonus(), abilityCHA->getBonus());
-
+    ranksLeftValue += additionalRank;
+    ranksLeft->setValue(ranksLeftValue);
+    updateRanksLeft();
 }
 
 void MainWindow::resetClassSkill()
 {
-    rowAcrobatics->resetClassSkill();
-    rowAppraise->resetClassSkill();
-    rowBluff->resetClassSkill();
-    rowClimb->resetClassSkill();;
-    rowCraft->resetClassSkill();
-    rowDiplomacy->resetClassSkill();
-    rowDisableDevice->resetClassSkill();
-    rowDisguise->resetClassSkill();
-    rowEscapeArtist->resetClassSkill();
-    rowFly->resetClassSkill();
-    rowHandleAnimal->resetClassSkill();
-    rowHeal->resetClassSkill();
-    rowIntimidate->resetClassSkill();
-    rowKnArcana->resetClassSkill();
-    rowKnDungeoneering->resetClassSkill();
-    rowKnEngineering->resetClassSkill();
-    rowKnGeography->resetClassSkill();
-    rowKnHistory->resetClassSkill();
-    rowKnLocal->resetClassSkill();
-    rowKnNature->resetClassSkill();
-    rowKnNobility->resetClassSkill();
-    rowKnPlanes->resetClassSkill();
-    rowKnReligion->resetClassSkill();
-    rowLinguistics->resetClassSkill();
-    rowPerception->resetClassSkill();
-    rowPerform->resetClassSkill();
-    rowProfession->resetClassSkill();
-    rowRide->resetClassSkill();
-    rowSenseMotive->resetClassSkill();
-    rowSleighOfHand->resetClassSkill();
-    rowSpellcraft->resetClassSkill();
-    rowStealth->resetClassSkill();
-    rowSurvival->resetClassSkill();
-    rowSwim->resetClassSkill();
-    rowUseMagicDevice->resetClassSkill();
+    for (int j = 0; j <= 34; j++)
+    {
+        tableSkills[j]->resetClassSkill();
+    }
+}
+
+void MainWindow::resetRanks()
+{
+    for (int j = 0; j <= 34; j++)
+    {
+        tableSkills[j]->resetRank();
+    }
+}
+
+void MainWindow::updateRanksLeft()
+{
+    int sum(0);
+    int temp;
+    for (int j = 0; j <= 34; j++)
+    {
+        temp = tableSkills[j]->getRank();
+        sum += temp;
+    }
+    ranksLeft->setValue(ranksLeftValue - sum);
+}
+
+void MainWindow::saveChar()
+{
+    if (ranksLeft->value() > 0)
+    {
+        ofstream streamSave;
+        streamSave.open("/home/pat/CodingProjects/Wheezy/Wheezy/Wheezy/" + charName->text().toStdString());
+
+        if (streamSave)
+        {
+            // Name, race & class
+            streamSave << charName->text().toStdString() << endl;
+            streamSave << coreRaces->currentText().toStdString() << endl;
+            streamSave << coreClasses->currentText().toStdString() << endl;
+
+            // Alignment
+            if (alignmentL->isChecked())
+            {
+                streamSave << "Lawful ";
+            }
+            else if (alignmentN1->isChecked())
+            {
+                streamSave << "Neutral ";
+            }
+            else
+            {
+                streamSave << "Chaotic ";
+            }
+            if (alignmentG->isChecked())
+            {
+                streamSave << "Good" << endl;
+            }
+            else if (alignmentN2->isChecked())
+            {
+                streamSave << "Neutral" << endl;
+            }
+            else
+            {
+                streamSave << "Evil" << endl;
+            }
+
+            // Abilities
+            streamSave << abilitySTR->getValue() << " "
+                       << abilityDEX->getValue() << " "
+                       << abilityCON->getValue() << " "
+                       << abilityINT->getValue() << " "
+                       << abilityWIS->getValue() << " "
+                       << abilityCHA->getValue()
+                       << endl;
+
+            // Feats
+            switch (numberFeats) {
+            case 1:
+                streamSave << lineFeat1->text().toStdString() << endl;
+                break;
+            case 2:
+                streamSave << lineFeat1->text().toStdString() << endl;
+                streamSave << lineFeat2->text().toStdString() << endl;
+                break;
+            case 3:
+                streamSave << lineFeat1->text().toStdString() << endl;
+                streamSave << lineFeat2->text().toStdString() << endl;
+                streamSave << lineFeat3->text().toStdString() << endl;
+                break;
+            default:
+                break;
+            }
+
+            // Hit Dice & starting gold
+            streamSave << spinHit->value() << endl;
+            streamSave << spinGold->value() << endl;
+
+            // Skills
+            for (int j = 0; j <= 34; j++)
+            {
+                streamSave << tableSkills[j]->getRank() << " " << tableSkills[j]->getTotal() << endl;
+            }
+        }
+        else
+        {
+            qFatal("Can't open file to save on");
+        }
+    }
+    else
+    {
+        QMessageBox::information(this,"You did a booboo ! ",
+        "Make sure the amount of ranks used doesn't become negative. Check next to your name !");
+    }
 }

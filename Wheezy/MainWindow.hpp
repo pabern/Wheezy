@@ -40,12 +40,17 @@ public slots:
     void updateHitDie(std::ifstream& file);
     void updateGold(std::ifstream& file);
     void updateFeats(std::ifstream& file);
-    void updateSkill();
+    void updateSkill(std::ifstream& file);
     void resetClassSkill();
+    void resetRanks();
+    void updateRanksLeft();
+
+    void saveChar();
 
 private:
     // Constructor
     QWidget *centralZone;
+    QMenu *menuChar;
 
     // Character creation
     int leftWidth;
@@ -58,6 +63,10 @@ private:
     int raceCHA;
     QComboBox *coreClasses;
     QLineEdit *charName;
+
+    QSpinBox *ranksLeft;
+    int ranksLeftValue;
+    QHBoxLayout *layoutName;
 
     QStandardItemModel *modelAbility;
 
@@ -93,6 +102,14 @@ private:
     AbilityRow *abilityWIS;
     AbilityRow *abilityCHA;
 
+    // Feats
+    QGroupBox *groupFeat;
+    QVBoxLayout * layoutFeat;
+    QLineEdit *lineFeat1;
+    QLineEdit *lineFeat2;
+    QLineEdit *lineFeat3;
+    int numberFeats;
+
     // Hit Die
     QGroupBox *groupHit;
     QHBoxLayout *layoutHit;
@@ -117,49 +134,7 @@ private:
     GridHeader *labelSkillAbility;
     GridHeader *labelSkillTotal;
 
-    SkillRow *rowAcrobatics;
-    SkillRow *rowAppraise;
-    SkillRow *rowBluff;
-    SkillRow *rowClimb;
-    SkillRow *rowCraft;
-    SkillRow *rowDiplomacy;
-    SkillRow *rowDisableDevice;
-    SkillRow *rowDisguise;
-    SkillRow *rowEscapeArtist;
-    SkillRow *rowFly;
-    SkillRow *rowHandleAnimal;
-    SkillRow *rowHeal;
-    SkillRow *rowIntimidate;
-    SkillRow *rowKnArcana;
-    SkillRow *rowKnDungeoneering;
-    SkillRow *rowKnEngineering;
-    SkillRow *rowKnGeography;
-    SkillRow *rowKnHistory;
-    SkillRow *rowKnLocal;
-    SkillRow *rowKnNature;
-    SkillRow *rowKnNobility;
-    SkillRow *rowKnPlanes;
-    SkillRow *rowKnReligion;
-    SkillRow *rowLinguistics;
-    SkillRow *rowPerception;
-    SkillRow *rowPerform;
-    SkillRow *rowProfession;
-    SkillRow *rowRide;
-    SkillRow *rowSenseMotive;
-    SkillRow *rowSleighOfHand;
-    SkillRow *rowSpellcraft;
-    SkillRow *rowStealth;
-    SkillRow *rowSurvival;
-    SkillRow *rowSwim;
-    SkillRow *rowUseMagicDevice;
-
-    // Feats
-    QGroupBox *groupFeat;
-    QVBoxLayout * layoutFeat;
-    QLineEdit *lineFeat1;
-    QLineEdit *lineFeat2;
-    QLineEdit *lineFeat3;
-
+    SkillRow *tableSkills[35];
 };
 
 #endif // MAINWINDOW_HPP

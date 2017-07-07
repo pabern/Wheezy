@@ -17,6 +17,7 @@ public:
     bool isChecked();
     void updateTotalsAndBonus();
     int getBonus();
+    int getValue();
 
     QRadioButton *radio;
     AbilitySpinBox *spinRoll;

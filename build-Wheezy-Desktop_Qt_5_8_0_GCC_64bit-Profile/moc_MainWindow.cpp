@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[14];
-    char stringdata0[175];
+    QByteArrayData data[17];
+    char stringdata0[211];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -44,14 +44,18 @@ QT_MOC_LITERAL(9, 111, 12), // "updateHitDie"
 QT_MOC_LITERAL(10, 124, 10), // "updateGold"
 QT_MOC_LITERAL(11, 135, 11), // "updateFeats"
 QT_MOC_LITERAL(12, 147, 11), // "updateSkill"
-QT_MOC_LITERAL(13, 159, 15) // "resetClassSkill"
+QT_MOC_LITERAL(13, 159, 15), // "resetClassSkill"
+QT_MOC_LITERAL(14, 175, 10), // "resetRanks"
+QT_MOC_LITERAL(15, 186, 15), // "updateRanksLeft"
+QT_MOC_LITERAL(16, 202, 8) // "saveChar"
 
     },
     "MainWindow\0makeNewChar\0\0updateRaceChoice\0"
     "updateAbilities\0updateClassChoice\0"
     "updateAlignment\0std::ifstream&\0file\0"
     "updateHitDie\0updateGold\0updateFeats\0"
-    "updateSkill\0resetClassSkill"
+    "updateSkill\0resetClassSkill\0resetRanks\0"
+    "updateRanksLeft\0saveChar"
 };
 #undef QT_MOC_LITERAL
 
@@ -61,7 +65,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      14,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -69,17 +73,20 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   69,    2, 0x0a /* Public */,
-       3,    0,   70,    2, 0x0a /* Public */,
-       4,    0,   71,    2, 0x0a /* Public */,
-       5,    0,   72,    2, 0x0a /* Public */,
-       6,    0,   73,    2, 0x0a /* Public */,
-       6,    1,   74,    2, 0x0a /* Public */,
-       9,    1,   77,    2, 0x0a /* Public */,
-      10,    1,   80,    2, 0x0a /* Public */,
-      11,    1,   83,    2, 0x0a /* Public */,
-      12,    0,   86,    2, 0x0a /* Public */,
-      13,    0,   87,    2, 0x0a /* Public */,
+       1,    0,   84,    2, 0x0a /* Public */,
+       3,    0,   85,    2, 0x0a /* Public */,
+       4,    0,   86,    2, 0x0a /* Public */,
+       5,    0,   87,    2, 0x0a /* Public */,
+       6,    0,   88,    2, 0x0a /* Public */,
+       6,    1,   89,    2, 0x0a /* Public */,
+       9,    1,   92,    2, 0x0a /* Public */,
+      10,    1,   95,    2, 0x0a /* Public */,
+      11,    1,   98,    2, 0x0a /* Public */,
+      12,    1,  101,    2, 0x0a /* Public */,
+      13,    0,  104,    2, 0x0a /* Public */,
+      14,    0,  105,    2, 0x0a /* Public */,
+      15,    0,  106,    2, 0x0a /* Public */,
+      16,    0,  107,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -91,6 +98,9 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void, 0x80000000 | 7,    8,
     QMetaType::Void, 0x80000000 | 7,    8,
     QMetaType::Void, 0x80000000 | 7,    8,
+    QMetaType::Void, 0x80000000 | 7,    8,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -112,8 +122,11 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 6: _t->updateHitDie((*reinterpret_cast< std::ifstream(*)>(_a[1]))); break;
         case 7: _t->updateGold((*reinterpret_cast< std::ifstream(*)>(_a[1]))); break;
         case 8: _t->updateFeats((*reinterpret_cast< std::ifstream(*)>(_a[1]))); break;
-        case 9: _t->updateSkill(); break;
+        case 9: _t->updateSkill((*reinterpret_cast< std::ifstream(*)>(_a[1]))); break;
         case 10: _t->resetClassSkill(); break;
+        case 11: _t->resetRanks(); break;
+        case 12: _t->updateRanksLeft(); break;
+        case 13: _t->saveChar(); break;
         default: ;
         }
     }
@@ -144,13 +157,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 14)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 14;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
+        if (_id < 14)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 11;
+        _id -= 14;
     }
     return _id;
 }

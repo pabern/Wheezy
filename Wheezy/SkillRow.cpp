@@ -1,9 +1,7 @@
 #include "SkillRow.hpp"
 
-SkillRow::SkillRow(QString skill, int index)
+SkillRow::SkillRow(QString skill)
 {
-    skillIndex = index;
-
     checkCS = new QCheckBox;
     checkCS->setEnabled(false);
     checkCS->setFixedWidth(35);
@@ -45,379 +43,55 @@ SkillRow::SkillRow(QString skill, int index)
     addWidget(spinTotal);
 }
 
-void SkillRow::updateRow(int currentClass, int bonusSTR, int bonusDEX,
-                                           int bonusCON, int bonusINT,
-                                           int bonusWIS, int bonusCHA)
+void SkillRow::updateRow(bool classSkill, int abilityBonus[], int index)
 {
-    // REPLACE IF WITH SWITCH
-    // REMOVE bonusCON cause no skill with con
 
-    // Acrobatics
-    if (skillIndex == 1)
-    {
-        spinAbility->setValue(bonusDEX);
+    checkCS->setChecked(classSkill);
 
-        if (currentClass == 1 || currentClass == 2 ||
-            currentClass == 6 || currentClass == 9)
-        {
-            checkCS->setChecked(true);
-        }
-
-    } // Appraise
-    else if (skillIndex == 2 )
-    {
-        spinAbility->setValue(bonusINT);
-
-        if (currentClass == 2 || currentClass == 3 ||
-            currentClass == 9 || currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-
-    } // Bluff
-    else if (skillIndex == 3)
-    {
-        spinAbility->setValue(bonusCHA);
-
-        if (currentClass == 2 || currentClass == 9)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Climb
-    else if (skillIndex == 4)
-    {
-        spinAbility->setValue(bonusSTR);
-
-        if (currentClass != 3 && currentClass != 7 &&
-            currentClass != 10 && currentClass != 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Craft
-    else if (skillIndex == 5)
-    {
-        spinAbility->setValue(bonusINT);
-        checkCS->setChecked(true);
-    } // Diplomacy
-    else if (skillIndex == 6)
-    {
-        spinAbility->setValue(bonusCHA);
-
-        if (currentClass == 2 || currentClass == 3 ||
-            currentClass == 7 || currentClass == 9)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Disable Device
-    else if (skillIndex == 7)
-    {
-        spinAbility->setValue(bonusDEX);
-
-        if (currentClass == 9)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Disguise
-    else if (skillIndex == 8)
-    {
-        spinAbility->setValue(bonusCHA);
-
-        if (currentClass == 2 || currentClass == 9)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Escape Artist
-    else if (skillIndex == 9)
-    {
-        spinAbility->setValue(bonusDEX);
-
-        if (currentClass == 2 || currentClass == 6 ||
-            currentClass == 9)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Fly
-    else if (skillIndex == 10)
-    {
-        spinAbility->setValue(bonusDEX);
-
-        if (currentClass == 4 || currentClass == 10 ||
-            currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Handle Animal
-    else if (skillIndex == 11)
-    {
-        spinAbility->setValue(bonusCHA);
-
-        if (currentClass == 1 || currentClass == 4 ||
-            currentClass == 5 || currentClass == 7 ||
-            currentClass == 8 || currentClass == 10)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Heal
-    else if (skillIndex == 12)
-    {
-        spinAbility->setValue(bonusWIS);
-
-        if (currentClass == 3 || currentClass == 4 ||
-            currentClass == 7 || currentClass == 8)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Intimidate
-    else if (skillIndex == 13)
-    {
-        spinAbility->setValue(bonusCHA);
-
-        if (currentClass == 1 || currentClass == 2 ||
-            currentClass == 5 || currentClass == 6 ||
-            currentClass == 8 || currentClass == 9)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Kn. Arcana
-    else if (skillIndex == 14)
-    {
-        spinAbility->setValue(bonusINT);
-
-        if (currentClass == 2 || currentClass == 3 ||
-            currentClass == 10 || currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Kn. Dungeoneering
-    else if (skillIndex == 15)
-    {
-        spinAbility->setValue(bonusINT);
-
-        if (currentClass == 2 || currentClass == 5 ||
-            currentClass == 8 || currentClass == 9 ||
-            currentClass == 10 || currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Kn. Engineering
-    else if (skillIndex == 16)
-    {
-        spinAbility->setValue(bonusINT);
-
-        if (currentClass == 2 || currentClass == 5 ||
-            currentClass == 10 || currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Kn. Geography
-    else if (skillIndex == 17)
-    {
-        spinAbility->setValue(bonusINT);
-
-        if (currentClass == 2 || currentClass == 4 ||
-            currentClass == 8 || currentClass == 10 ||
-            currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Kn. History
-    else if (skillIndex == 18)
-    {
-        spinAbility->setValue(bonusINT);
-
-        if (currentClass == 2 || currentClass == 3 ||
-            currentClass == 6 || currentClass == 10 ||
-            currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Kn. Local
-    else if (skillIndex == 19)
-    {
-        spinAbility->setValue(bonusINT);
-
-        if (currentClass == 2 || currentClass == 9 ||
-            currentClass == 10 || currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Kn. Nature
-    else if (skillIndex == 20)
-    {
-        spinAbility->setValue(bonusINT);
-
-        if (currentClass == 1 || currentClass == 2 ||
-            currentClass == 4 || currentClass == 8 ||
-            currentClass == 10 || currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Kn. Nobility
-    else if (skillIndex == 21)
-    {
-        spinAbility->setValue(bonusINT);
-
-        if (currentClass == 2 || currentClass == 3 ||
-            currentClass == 7 || currentClass == 10 ||
-            currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Kn. Planes
-    else if (skillIndex == 22)
-    {
-        spinAbility->setValue(bonusINT);
-
-        if (currentClass == 2 || currentClass == 3 ||
-            currentClass == 10 || currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Kn. Religion
-    else if (skillIndex == 23)
-    {
-        spinAbility->setValue(bonusINT);
-
-        if (currentClass == 2 || currentClass == 3 ||
-            currentClass == 6 || currentClass == 7 ||
-            currentClass == 10 || currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Linguistics
-    else if (skillIndex == 24)
-    {
-        spinAbility->setValue(bonusINT);
-
-        if (currentClass == 2 || currentClass == 3 ||
-            currentClass == 9 || currentClass == 10 ||
-            currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Perception
-    else if (skillIndex == 25)
-    {
-        spinAbility->setValue(bonusWIS);
-
-        if (currentClass == 1 || currentClass == 2 ||
-            currentClass == 4 || currentClass == 6 ||
-            currentClass == 8 || currentClass == 9)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Perform
-    else if (skillIndex == 26)
-    {
-        spinAbility->setValue(bonusCHA);
-
-        if (currentClass == 2 || currentClass == 6 ||
-            currentClass == 9)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Prof
-    else if (skillIndex == 27)
-    {
-        spinAbility->setValue(bonusWIS);
-
-        if (currentClass != 1)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Ride
-    else if (skillIndex == 28)
-    {
-        spinAbility->setValue(bonusDEX);
-
-        if (currentClass == 1 || currentClass == 4 ||
-            currentClass == 5 || currentClass == 6 ||
-            currentClass == 7 || currentClass == 8 ||
-            currentClass == 10)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Sense Motive
-    else if (skillIndex == 29)
-    {
-        spinAbility->setValue(bonusWIS);
-
-        if (currentClass == 2 || currentClass == 3 ||
-            currentClass == 6 || currentClass == 7 ||
-            currentClass == 9)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Sleight of Hand
-    else if (skillIndex == 30)
-    {
-        spinAbility->setValue(bonusDEX);
-
-        if (currentClass == 2 || currentClass == 9)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Spellcraft
-    else if (skillIndex == 31)
-    {
-        spinAbility->setValue(bonusINT);
-
-        if (currentClass == 2 || currentClass == 3 ||
-            currentClass == 4 || currentClass == 7 ||
-            currentClass == 8 || currentClass == 10 ||
-            currentClass == 11)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Stealth
-    else if (skillIndex == 32)
-    {
-        spinAbility->setValue(bonusDEX);
-
-        if (currentClass == 2 || currentClass == 6 ||
-            currentClass == 8 || currentClass == 9)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Survival
-    else if (skillIndex == 33)
-    {
-        spinAbility->setValue(bonusWIS);
-
-        if (currentClass == 1 || currentClass == 4 ||
-            currentClass == 5 || currentClass == 8)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Swim
-    else if (skillIndex == 34)
-    {
-        spinAbility->setValue(bonusSTR);
-
-        if (currentClass == 1 || currentClass == 4 ||
-            currentClass == 5 || currentClass == 6 ||
-            currentClass == 8 || currentClass == 9)
-        {
-            checkCS->setChecked(true);
-        }
-    } // Use Magic Device
-    else if (skillIndex == 35)
-    {
-        spinAbility->setValue(bonusCHA);
-
-        if (currentClass == 2 || currentClass == 9 ||
-            currentClass == 10)
-        {
-            checkCS->setChecked(true);
-        }
+    switch (index) {
+    case 3:case 33:
+        spinAbility->setValue(abilityBonus[0]);
+        break;
+    case 0:case 6:case 8:case 9:case 27:case 29:case 31:
+        spinAbility->setValue(abilityBonus[1]);
+        break;
+    case 1:case 4:case 13:case 14:case 15:case 16:case 17:case 18:case 19:case 20:case 21:case 22:
+    case 23:case 30:
+        spinAbility->setValue(abilityBonus[3]);
+        break;
+    case 11:case 24:case 26:case 28:case 32:
+        spinAbility->setValue(abilityBonus[4]);
+        break;
+    case 2:case 5:case 7:case 10:case 12:case 25:case 34:
+        spinAbility->setValue(abilityBonus[5]);
+        break;
+    default:
+        break;
     }
-
     updateTotal();
 }
 
 void SkillRow::resetClassSkill()
 {
-    checkCS->setChecked(false);
+    if (checkCS->isChecked())
+    {
+        checkCS->setChecked(false);
+    }
+}
+
+void SkillRow::resetRank()
+{
+    spinRank->setValue(0);
+}
+
+int SkillRow::getRank()
+{
+    return spinRank->value();
+}
+
+int SkillRow::getTotal()
+{
+    return spinTotal->value();
 }
 
 void SkillRow::updateTotal()

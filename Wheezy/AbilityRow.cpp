@@ -43,3 +43,8 @@ int AbilityRow::getBonus()
 {
     return spinBonus->value();
 }
+
+int AbilityRow::getValue()
+{
+    return spinValue->value();
+}

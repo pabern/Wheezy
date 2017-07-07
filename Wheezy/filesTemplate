@@ -1,0 +1,13 @@
+classes
+******
+Class | Checked alignment | Enabled alignment | Hit dice | Maximum | Gold dice | Maximum | Mean | Number feats | Class Skill bool | Number of skill ranks
+
+NOTES : Checked alignment is a way to make it so that when a certain class is chosen, a radio that is not enabled won't be checked.
+******
+
+races
+******
+Race | Abilities | Number of feats | Number of skill ranks
+
+NOTES : Humans create complicatedness
+******
