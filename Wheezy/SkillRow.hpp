@@ -3,7 +3,7 @@
 
 #include <QtWidgets>
 
-class SkillRow : public QHBoxLayout
+class SkillRow: public QHBoxLayout
 {
     Q_OBJECT
 

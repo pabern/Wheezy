@@ -7,6 +7,7 @@ class AbilitySpinBox : public QSpinBox
 {
 public:
     AbilitySpinBox();
+    AbilitySpinBox(QString);
 };
 
 #endif // ABILITYSPINBOX_HPP

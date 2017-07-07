@@ -3,12 +3,11 @@
 
 #include <QtWidgets>
 #include <fstream>
+#include <limits>
 #include <string>
-#include "AbilitySpinBox.hpp"
 #include "GridHeader.hpp"
 #include "SkillRow.hpp"
-
-using namespace std;
+#include "AbilityRow.hpp"
 
 class MainWindow: public QMainWindow
 {
@@ -16,23 +15,33 @@ class MainWindow: public QMainWindow
 
 public:
     MainWindow();
-    void initiateAbilities();
-    void initiateAlignment();
-    void initiateHitDie();
-    void updateHitDie();
-    void initiateGold();
-    void updateGold();
-    void initiateSkill();
-    void resetClassSkill();
+
+    // Initiations
     void initiateRaces();
     void initiateClasses();
+    void initiateAlignment();
+    void initiateAbilities();
+    void initiateFeats();
+    void initiateHitDie();
+    void initiateGold();
+    void initiateSkill();
+
+    // Functions to lighten
+    void setRaceValues(int STR, int DEX, int CON, int INT, int WIS, int CHA);
 
 public slots:
+    // Updates and resets
     void makeNewChar();
+    void updateRaceChoice();
     void updateAbilities();
     void updateClassChoice();
     void updateAlignment();
+    void updateAlignment(std::ifstream& file);
+    void updateHitDie(std::ifstream& file);
+    void updateGold(std::ifstream& file);
+    void updateFeats(std::ifstream& file);
     void updateSkill();
+    void resetClassSkill();
 
 private:
     // Constructor
@@ -41,6 +50,12 @@ private:
     // Character creation
     int leftWidth;
     QComboBox *coreRaces;
+    int raceSTR;
+    int raceDEX;
+    int raceCON;
+    int raceINT;
+    int raceWIS;
+    int raceCHA;
     QComboBox *coreClasses;
     QLineEdit *charName;
 
@@ -59,44 +74,24 @@ private:
     QRadioButton *alignmentN2;
     QRadioButton *alignmentE;
 
+    int enLint;
+    bool enN1;
+    bool enC;
+    bool enG;
+    bool enN2;
+    bool enE;
+
     // Ability section
     QGroupBox *groupAbility;
-    QGridLayout *gridAbility;
+    QHBoxLayout *layoutLabelAbility;
+    QVBoxLayout *layoutAbility;
 
-    QRadioButton *radioSTR;
-    QRadioButton *radioDEX;
-    QRadioButton *radioCON;
-    QRadioButton *radioINT;
-    QRadioButton *radioWIS;
-    QRadioButton *radioCHA;
-
-    QSpinBox *spinRollSTR;
-    QSpinBox *spinRollDEX;
-    QSpinBox *spinRollCON;
-    QSpinBox *spinRollINT;
-    QSpinBox *spinRollWIS;
-    QSpinBox *spinRollCHA;
-
-    AbilitySpinBox *spinRaceSTR;
-    AbilitySpinBox *spinRaceDEX;
-    AbilitySpinBox *spinRaceCON;
-    AbilitySpinBox *spinRaceINT;
-    AbilitySpinBox *spinRaceWIS;
-    AbilitySpinBox *spinRaceCHA;
-
-    AbilitySpinBox *spinValueSTR;
-    AbilitySpinBox *spinValueDEX;
-    AbilitySpinBox *spinValueCON;
-    AbilitySpinBox *spinValueINT;
-    AbilitySpinBox *spinValueWIS;
-    AbilitySpinBox *spinValueCHA;
-
-    AbilitySpinBox *spinBonusSTR;
-    AbilitySpinBox *spinBonusDEX;
-    AbilitySpinBox *spinBonusCON;
-    AbilitySpinBox *spinBonusINT;
-    AbilitySpinBox *spinBonusWIS;
-    AbilitySpinBox *spinBonusCHA;
+    AbilityRow *abilitySTR;
+    AbilityRow *abilityDEX;
+    AbilityRow *abilityCON;
+    AbilityRow *abilityINT;
+    AbilityRow *abilityWIS;
+    AbilityRow *abilityCHA;
 
     // Hit Die
     QGroupBox *groupHit;
@@ -112,8 +107,16 @@ private:
 
     // Skill section
     QVBoxLayout *layoutSkillRow;
-    QGridLayout *layoutLabelSkill;
+    QHBoxLayout *layoutLabelSkill;
     QScrollArea *scrollAreaSkill;
+
+    GridHeader *labelClassSkill;
+    GridHeader *labelSkill;
+    GridHeader *labelSkillRank;
+    GridHeader *labelSkillClass;
+    GridHeader *labelSkillAbility;
+    GridHeader *labelSkillTotal;
+
     SkillRow *rowAcrobatics;
     SkillRow *rowAppraise;
     SkillRow *rowBluff;
@@ -149,6 +152,13 @@ private:
     SkillRow *rowSurvival;
     SkillRow *rowSwim;
     SkillRow *rowUseMagicDevice;
+
+    // Feats
+    QGroupBox *groupFeat;
+    QVBoxLayout * layoutFeat;
+    QLineEdit *lineFeat1;
+    QLineEdit *lineFeat2;
+    QLineEdit *lineFeat3;
 
 };
 
