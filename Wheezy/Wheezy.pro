@@ -6,11 +6,13 @@ SOURCES += \
     AbilitySpinBox.cpp \
     GridHeader.cpp \
     SkillRow.cpp \
-    AbilityRow.cpp
+    AbilityRow.cpp \
+    NewCharWindow.cpp
 
 HEADERS += \
     MainWindow.hpp \
     AbilitySpinBox.hpp \
     GridHeader.hpp \
     SkillRow.hpp \
-    AbilityRow.hpp
+    AbilityRow.hpp \
+    NewCharWindow.hpp

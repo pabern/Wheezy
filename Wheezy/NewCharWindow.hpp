@@ -1,10 +1,7 @@
-#ifndef MAINWINDOW_HPP
-#define MAINWINDOW_HPP
+#ifndef NEWCHARWINDOW_HPP
+#define NEWCHARWINDOW_HPP
 
 #include <QtWidgets>
-#include "NewCharWindow.hpp"
-
-
 #include <fstream>
 #include <limits>
 #include <string>
@@ -12,17 +9,13 @@
 #include "SkillRow.hpp"
 #include "AbilityRow.hpp"
 
-class MainWindow: public QMainWindow
+class NewCharWindow: public QHBoxLayout
 {
     Q_OBJECT
 
 public:
-    MainWindow();
+    NewCharWindow();
 
-public slots:
-    void makeNewChar();
-    void saveNewChar();
-/*
     // Initiations
     void initiateRaces();
     void initiateClasses();
@@ -38,7 +31,6 @@ public slots:
 
 public slots:
     // Updates and resets
-    void makeNewChar();
     void updateRaceChoice();
     void updateAbilities();
     void updateClassChoice();
@@ -52,14 +44,9 @@ public slots:
     void resetRanks();
     void updateRanksLeft();
 
-    void saveChar();
-*/
-private:
-    // Constructor
-    QWidget *centralZone;
-    QMenu *menuChar;
+    //void saveChar();
 
-    /*
+private:
     // Character creation
     int leftWidth;
     QComboBox *coreRaces;
@@ -143,7 +130,6 @@ private:
     GridHeader *labelSkillTotal;
 
     SkillRow *tableSkills[35];
-    */
 };
 
-#endif // MAINWINDOW_HPP
+#endif // NEWCHARWINDOW_HPP
