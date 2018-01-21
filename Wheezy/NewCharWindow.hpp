@@ -44,7 +44,17 @@ public slots:
     void resetRanks();
     void updateRanksLeft();
 
-    //void saveChar();
+    // For saving
+    int getRanksLeft();
+    QString getCharName();
+    QString getCoreRaces();
+    QString getCoreClasses();
+    std::string getAlignment();
+    void writeAbilities(std::ostream& file);
+    std::string getFeats();
+    int getHit();
+    int getGold();
+    void writeSkills(std::ofstream& file);
 
 private:
     // Character creation

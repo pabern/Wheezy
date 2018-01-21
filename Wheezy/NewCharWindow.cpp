@@ -822,3 +822,104 @@ void NewCharWindow::updateRanksLeft()
     }
     ranksLeft->setValue(ranksLeftValue - sum);
 }
+
+int NewCharWindow::getRanksLeft()
+{
+    return ranksLeft->value();
+}
+
+QString NewCharWindow::getCharName()
+{
+    return charName->text();
+}
+
+QString NewCharWindow::getCoreRaces()
+{
+    return coreRaces->currentText();
+}
+
+QString NewCharWindow::getCoreClasses()
+{
+    return coreClasses->currentText();
+}
+
+string NewCharWindow::getAlignment()
+{
+    string alignment;
+    if (alignmentL->isChecked())
+    {
+        alignment = "Lawful ";
+    }
+    else if (alignmentN1->isChecked())
+    {
+        alignment = "Neutral ";
+    }
+    else
+    {
+        alignment = "Chaotic ";
+    }
+
+    if (alignmentG->isChecked())
+    {
+        alignment.append("Good");
+    }
+    else if (alignmentN2->isChecked())
+    {
+        alignment.append("Neutral");
+    }
+    else
+    {
+        alignment.append("Evil");
+    }
+    return alignment;
+}
+
+void NewCharWindow::writeAbilities(ostream &file)
+{
+    file << abilitySTR->getValue() << " ";
+    file << abilityDEX->getValue() << " ";
+    file << abilityCON->getValue() << " ";
+    file << abilityINT->getValue() << " ";
+    file << abilityWIS->getValue() << " ";
+    file << abilityCHA->getValue() << endl;
+}
+
+string NewCharWindow::getFeats()
+{
+    string feats;
+    switch (numberFeats) {
+    case 1:
+        feats = lineFeat1->text().toStdString();
+        break;
+    case 2:
+        feats = lineFeat1->text().toStdString();
+        feats.append(lineFeat2->text().toStdString());
+        break;
+    case 3:
+        feats = lineFeat1->text().toStdString();
+        feats.append(lineFeat2->text().toStdString());
+        feats.append(lineFeat3->text().toStdString());
+        break;
+    default:
+        break;
+    }
+    return feats;
+}
+
+int NewCharWindow::getHit()
+{
+    return spinHit->value();
+}
+
+int NewCharWindow::getGold()
+{
+    return spinGold->value();
+}
+
+void NewCharWindow::writeSkills(ofstream &file)
+{
+    for (int j = 0; j <= 34; j++)
+    {
+        file << tableSkills[j]->getRank() << " " << tableSkills[j]->getTotal() << endl;
+    }
+}

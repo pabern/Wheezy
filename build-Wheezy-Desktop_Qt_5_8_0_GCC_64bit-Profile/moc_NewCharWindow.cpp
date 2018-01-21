@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_NewCharWindow_t {
-    QByteArrayData data[15];
-    char stringdata0[193];
+    QByteArrayData data[28];
+    char stringdata0[351];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -45,7 +45,20 @@ QT_MOC_LITERAL(10, 126, 11), // "updateFeats"
 QT_MOC_LITERAL(11, 138, 11), // "updateSkill"
 QT_MOC_LITERAL(12, 150, 15), // "resetClassSkill"
 QT_MOC_LITERAL(13, 166, 10), // "resetRanks"
-QT_MOC_LITERAL(14, 177, 15) // "updateRanksLeft"
+QT_MOC_LITERAL(14, 177, 15), // "updateRanksLeft"
+QT_MOC_LITERAL(15, 193, 12), // "getRanksLeft"
+QT_MOC_LITERAL(16, 206, 11), // "getCharName"
+QT_MOC_LITERAL(17, 218, 12), // "getCoreRaces"
+QT_MOC_LITERAL(18, 231, 14), // "getCoreClasses"
+QT_MOC_LITERAL(19, 246, 12), // "getAlignment"
+QT_MOC_LITERAL(20, 259, 11), // "std::string"
+QT_MOC_LITERAL(21, 271, 14), // "writeAbilities"
+QT_MOC_LITERAL(22, 286, 13), // "std::ostream&"
+QT_MOC_LITERAL(23, 300, 8), // "getFeats"
+QT_MOC_LITERAL(24, 309, 6), // "getHit"
+QT_MOC_LITERAL(25, 316, 7), // "getGold"
+QT_MOC_LITERAL(26, 324, 11), // "writeSkills"
+QT_MOC_LITERAL(27, 336, 14) // "std::ofstream&"
 
     },
     "NewCharWindow\0updateRaceChoice\0\0"
@@ -53,7 +66,11 @@ QT_MOC_LITERAL(14, 177, 15) // "updateRanksLeft"
     "updateAlignment\0std::ifstream&\0file\0"
     "updateHitDie\0updateGold\0updateFeats\0"
     "updateSkill\0resetClassSkill\0resetRanks\0"
-    "updateRanksLeft"
+    "updateRanksLeft\0getRanksLeft\0getCharName\0"
+    "getCoreRaces\0getCoreClasses\0getAlignment\0"
+    "std::string\0writeAbilities\0std::ostream&\0"
+    "getFeats\0getHit\0getGold\0writeSkills\0"
+    "std::ofstream&"
 };
 #undef QT_MOC_LITERAL
 
@@ -63,7 +80,7 @@ static const uint qt_meta_data_NewCharWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      22,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -71,18 +88,28 @@ static const uint qt_meta_data_NewCharWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   74,    2, 0x0a /* Public */,
-       3,    0,   75,    2, 0x0a /* Public */,
-       4,    0,   76,    2, 0x0a /* Public */,
-       5,    0,   77,    2, 0x0a /* Public */,
-       5,    1,   78,    2, 0x0a /* Public */,
-       8,    1,   81,    2, 0x0a /* Public */,
-       9,    1,   84,    2, 0x0a /* Public */,
-      10,    1,   87,    2, 0x0a /* Public */,
-      11,    1,   90,    2, 0x0a /* Public */,
-      12,    0,   93,    2, 0x0a /* Public */,
-      13,    0,   94,    2, 0x0a /* Public */,
-      14,    0,   95,    2, 0x0a /* Public */,
+       1,    0,  124,    2, 0x0a /* Public */,
+       3,    0,  125,    2, 0x0a /* Public */,
+       4,    0,  126,    2, 0x0a /* Public */,
+       5,    0,  127,    2, 0x0a /* Public */,
+       5,    1,  128,    2, 0x0a /* Public */,
+       8,    1,  131,    2, 0x0a /* Public */,
+       9,    1,  134,    2, 0x0a /* Public */,
+      10,    1,  137,    2, 0x0a /* Public */,
+      11,    1,  140,    2, 0x0a /* Public */,
+      12,    0,  143,    2, 0x0a /* Public */,
+      13,    0,  144,    2, 0x0a /* Public */,
+      14,    0,  145,    2, 0x0a /* Public */,
+      15,    0,  146,    2, 0x0a /* Public */,
+      16,    0,  147,    2, 0x0a /* Public */,
+      17,    0,  148,    2, 0x0a /* Public */,
+      18,    0,  149,    2, 0x0a /* Public */,
+      19,    0,  150,    2, 0x0a /* Public */,
+      21,    1,  151,    2, 0x0a /* Public */,
+      23,    0,  154,    2, 0x0a /* Public */,
+      24,    0,  155,    2, 0x0a /* Public */,
+      25,    0,  156,    2, 0x0a /* Public */,
+      26,    1,  157,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -97,6 +124,16 @@ static const uint qt_meta_data_NewCharWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Int,
+    QMetaType::QString,
+    QMetaType::QString,
+    QMetaType::QString,
+    0x80000000 | 20,
+    QMetaType::Void, 0x80000000 | 22,    7,
+    0x80000000 | 20,
+    QMetaType::Int,
+    QMetaType::Int,
+    QMetaType::Void, 0x80000000 | 27,    7,
 
        0        // eod
 };
@@ -119,6 +156,24 @@ void NewCharWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 9: _t->resetClassSkill(); break;
         case 10: _t->resetRanks(); break;
         case 11: _t->updateRanksLeft(); break;
+        case 12: { int _r = _t->getRanksLeft();
+            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
+        case 13: { QString _r = _t->getCharName();
+            if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
+        case 14: { QString _r = _t->getCoreRaces();
+            if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
+        case 15: { QString _r = _t->getCoreClasses();
+            if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
+        case 16: { std::string _r = _t->getAlignment();
+            if (_a[0]) *reinterpret_cast< std::string*>(_a[0]) = _r; }  break;
+        case 17: _t->writeAbilities((*reinterpret_cast< std::ostream(*)>(_a[1]))); break;
+        case 18: { std::string _r = _t->getFeats();
+            if (_a[0]) *reinterpret_cast< std::string*>(_a[0]) = _r; }  break;
+        case 19: { int _r = _t->getHit();
+            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
+        case 20: { int _r = _t->getGold();
+            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
+        case 21: _t->writeSkills((*reinterpret_cast< std::ofstream(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -149,13 +204,13 @@ int NewCharWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 22)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 22;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 22)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 12;
+        _id -= 22;
     }
     return _id;
 }
